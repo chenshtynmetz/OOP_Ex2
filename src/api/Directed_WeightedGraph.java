@@ -103,4 +103,11 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         return this.mc;
     }
 
+    public HashMap<Integer,Node_Data> getMapOfNode(){
+         return this.mapOfNode;
+    }
+
+    public HashMap<Point, Edge_Data> getMapOfEdge(){
+        return this.mapOfEdge;
+    }
 }

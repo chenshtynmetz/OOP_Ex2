@@ -2,6 +2,9 @@ package api;
 
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class Directed_WeightedGraphTest {
@@ -52,5 +55,15 @@ class Directed_WeightedGraphTest {
 
     @Test
     void getMC() {
+    }
+
+    @Test
+    HashMap<Integer,Node_Data> getMapOfNode(){
+       return null;
+    }
+
+    @Test
+    HashMap<Point, Edge_Data> getMapOfEdge(){
+        return null;
     }
 }
