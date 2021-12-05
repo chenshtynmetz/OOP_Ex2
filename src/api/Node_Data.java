@@ -28,8 +28,8 @@ public class Node_Data implements NodeData{
     }
 
     @Override
-    public Geo_Location getLocation() {
-        return this.location;
+    public GeoLocation getLocation() {
+        return (GeoLocation) this.location;
     }
 
     @Override

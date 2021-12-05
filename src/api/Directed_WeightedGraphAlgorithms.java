@@ -3,6 +3,11 @@ package api;
 import java.util.List;
 
 public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAlgorithms{
+    private Directed_WeightedGraph graph;
+
+    public Directed_WeightedGraphAlgorithms(Directed_WeightedGraph g){
+//        this.graph= new Directed_WeightedGraph(g);
+    }
     @Override
     public void init(api.DirectedWeightedGraph g) {
 

@@ -1,5 +1,7 @@
 package api;
 
+import java.awt.*;
+
 // TODO: האם הפרטים של הצלע כמו המשקל והאינפו מושפעים מהקודקודים או שהם בפני עצמם?
 public class Edge_Data implements EdgeData{
     private Node_Data src;
@@ -7,6 +9,7 @@ public class Edge_Data implements EdgeData{
     private double weight;
     private String info;
     private int tag;
+    private Point id;
 
     public Edge_Data(){
         this.src= new Node_Data();
@@ -14,6 +17,7 @@ public class Edge_Data implements EdgeData{
         this.weight= 0.0;
         this.info= "";
         this.tag= 0;
+        this.id= new Point(0,0);
     }
 
     // TODO: deep copy or not?
@@ -23,6 +27,7 @@ public class Edge_Data implements EdgeData{
         this.weight= weight;
         this.info= info;
         this.tag= tag;
+        this.id= new Point(src.getKey(), dst.getKey());
     }
 
     @Override
@@ -58,5 +63,21 @@ public class Edge_Data implements EdgeData{
     @Override
     public void setTag(int t) {
         this.tag= t;
+    }
+
+    public Node_Data getNodeSrc() {
+        return this.src;
+    }
+
+    public Node_Data getNodeDest() {
+        return this.dst;
+    }
+
+    public Point getId(){
+        return this.id;
+    }
+    public void setId(Point p){
+        this.id.x= p.x;
+        this.id.y= p.y;
     }
 }
