@@ -10,6 +10,9 @@ public class Edge_Data implements EdgeData{
     private String info;
     private int tag;
     private Point id;
+    private static final int WHITE = 0;
+    private static final int GRAY = 1;
+    private static final int BLACK = 2;
 
     public Edge_Data(){
         this.src= new Node_Data();
@@ -18,6 +21,7 @@ public class Edge_Data implements EdgeData{
         this.info= "";
         this.tag= 0;
         this.id= new Point(0,0);
+
     }
 
     // TODO: deep copy or not?

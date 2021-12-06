@@ -6,12 +6,15 @@ public class Node_Data implements NodeData{
     private double weight= 0;
     private String info;
     private int tag;
+    private static final int WHITE = 0;
+    private static final int GRAY = 1;
+    private static final int BLACK = 2;
 
     public Node_Data(){
         this.key = 0;
         this.location= new Geo_Location();
         this.info= "";
-        this.tag= 0;
+        this.tag= WHITE;
     }
 
     public Node_Data(int key, Geo_Location g, String info, int tag){
