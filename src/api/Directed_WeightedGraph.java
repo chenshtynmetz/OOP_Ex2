@@ -8,23 +8,23 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
     private HashMap<Integer, NodeData> mapOfNode;
     // TODO: what is the key of the mapofedge?
     private HashMap<Point, EdgeData> mapOfEdge;
-    private HashMap<Integer, HashMap<Integer, Node_Data>> mapOfSrc;
-    private HashMap<Integer,HashMap<Integer, Node_Data>> mapOfDst;
+    private HashMap<Integer, HashMap<Integer, EdgeData>> mapOfSrc;
+    private HashMap<Integer,HashMap<Integer, EdgeData>> mapOfDst;
     private int mc= 0;
 
      public Directed_WeightedGraph(){
          this.mapOfNode= new HashMap<Integer, NodeData>();
          this.mapOfEdge= new HashMap<Point, EdgeData>();
-         this.mapOfSrc= new HashMap<Integer,HashMap<Integer, Node_Data>>();
-         this.mapOfDst= new HashMap<Integer,HashMap<Integer, Node_Data>>();
+         this.mapOfSrc= new HashMap<Integer,HashMap<Integer, EdgeData>>();
+         this.mapOfDst= new HashMap<Integer,HashMap<Integer, EdgeData>>();
      }
 
     // TODO: ask about hashmap.
-     public Directed_WeightedGraph(HashMap<Integer, Node_Data> map, HashMap<Point, Edge_Data> map2, HashMap<Integer,HashMap<Integer, Node_Data>> map3, HashMap<Integer,HashMap<Integer, Node_Data>> map4){
+     public Directed_WeightedGraph(HashMap<Integer, Node_Data> map, HashMap<Point, Edge_Data> map2, HashMap<Integer,HashMap<Integer, EdgeData>> map3, HashMap<Integer,HashMap<Integer, EdgeData>> map4){
          this.mapOfNode= new HashMap<Integer, NodeData>(map);
          this.mapOfEdge= new HashMap<Point, EdgeData>(map2);
-         this.mapOfSrc= new HashMap<Integer,HashMap<Integer, Node_Data>>(map3);
-         this.mapOfDst= new HashMap<Integer,HashMap<Integer, Node_Data>>(map4);
+         this.mapOfSrc= new HashMap<Integer,HashMap<Integer, EdgeData>>(map3);
+         this.mapOfDst= new HashMap<Integer,HashMap<Integer, EdgeData>>(map4);
      }
 
      public Directed_WeightedGraph(Edge_Data e){
@@ -33,12 +33,12 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
          mapOfNode.put(e.getDest(), e.getNodeDest());
          this.mapOfEdge= new HashMap<Point, EdgeData>();
          mapOfEdge.put(e.getId(), e);
-         this.mapOfSrc= new HashMap<Integer,HashMap<Integer, Node_Data>>();
-         mapOfSrc.put(e.getSrc(), new HashMap<Integer,Node_Data>());
-         mapOfSrc.get(e.getSrc()).put(e.getDest(), e.getNodeDest());
-         this.mapOfDst= new HashMap<Integer,HashMap<Integer, Node_Data>>();
-         mapOfDst.put(e.getDest(), new HashMap<Integer,Node_Data>());
-         mapOfSrc.get(e.getDest()).put(e.getSrc(), e.getNodeSrc());
+         this.mapOfSrc= new HashMap<Integer,HashMap<Integer, EdgeData>>();
+         mapOfSrc.put(e.getSrc(), new HashMap<Integer,EdgeData>());
+         mapOfSrc.get(e.getSrc()).put(e.getDest(), e);
+         this.mapOfDst= new HashMap<Integer,HashMap<Integer, EdgeData>>();
+         mapOfDst.put(e.getDest(), new HashMap<Integer,EdgeData>());
+         mapOfSrc.get(e.getDest()).put(e.getSrc(), e);
      }
 
     @Override
@@ -57,8 +57,8 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
     public void addNode(NodeData n) {
          if(this.mapOfNode.containsKey(n.getKey())) return;
         this.mapOfNode.put(n.getKey(), new Node_Data(n.getKey(), (Geo_Location) n.getLocation(), n.getInfo(), n.getTag()));
-        this.mapOfSrc.put(n.getKey(), new HashMap<Integer, Node_Data>());
-        this.mapOfDst.put(n.getKey(), new HashMap<Integer, Node_Data>());
+        this.mapOfSrc.put(n.getKey(), new HashMap<Integer, EdgeData>());
+        this.mapOfDst.put(n.getKey(), new HashMap<Integer, EdgeData>());
         this.mc++;
     }
 
@@ -69,8 +69,8 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         Point p= new  Point(src, dest);
         e.setId(p);
         this.mapOfEdge.put(e.getId(), e);
-        this.mapOfSrc.get(src).put(dest, (Node_Data)this.mapOfNode.get(dest));
-        this.mapOfDst.get(dest).put(src, (Node_Data) this.mapOfNode.get(src));
+        this.mapOfSrc.get(src).put(dest, e);
+        this.mapOfDst.get(dest).put(src, e);
         this.mc++;
     }
 
@@ -86,13 +86,12 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         return iter;
     }
 
-    // TODO: 06/12/2021 how to do casting? 
+    // TODO: 06/12/2021 how to do casting?
     @Override
     public Iterator<api.EdgeData> edgeIter(int node_id) throws RuntimeException{
 //         Iterator<EdgeData> iter= mapOfEdge.values(new Point(node_id, )).iterator();
-        Iterator<Node_Data> iter= mapOfSrc.get(node_id).values().iterator();
-//        return (Iterator<EdgeData>) iter;
-        return null;
+        Iterator<EdgeData> iter= mapOfSrc.get(node_id).values().iterator();
+        return iter;
     }
 
     // TODO: 06/12/2021 this function need to remove the nodes from 2 another hashmap. 
