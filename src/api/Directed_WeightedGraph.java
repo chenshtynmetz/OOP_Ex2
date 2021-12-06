@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 public class Directed_WeightedGraph implements DirectedWeightedGraph {
     private HashMap<Integer, NodeData> mapOfNode;
-    // TODO: what is the key of the mapofedge?
     private HashMap<Point, EdgeData> mapOfEdge;
     private HashMap<Integer, HashMap<Integer, EdgeData>> mapOfSrc;
     private HashMap<Integer,HashMap<Integer, EdgeData>> mapOfDst;
@@ -46,7 +45,6 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         return this.mapOfNode.get(key);
     }
 
-    // TODO: ask about return objcet instead interface (api.EdgeDate-> Edge_Data).
     @Override
     public EdgeData getEdge(int src, int dest) {
         Point p= new Point(src, dest);
@@ -94,17 +92,21 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         return iter;
     }
 
-    // TODO: 06/12/2021 this function need to remove the nodes from 2 another hashmap. 
     @Override
     public NodeData removeNode(int key) {
-        return this.mapOfNode.remove(key);
+        this.mapOfSrc.remove(key);
+        this.mapOfDst.remove(key);
+        this.mc++;
+         return this.mapOfNode.remove(key);
     }
 
-    // TODO: 06/12/2021 this function need to  remove the connection between the nodes in 2 hashmap. 
     @Override
     public api.EdgeData removeEdge(int src, int dest) {
+         this.mapOfSrc.get(src).remove(dest);
+         this.mapOfDst.get(dest).remove(src);
+         this.mc++;
          Point p= new Point(src, dest);
-        return this.mapOfEdge.remove(p);
+         return this.mapOfEdge.remove(p);
     }
 
     @Override
