@@ -86,9 +86,12 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         return iter;
     }
 
+    // TODO: 06/12/2021 how to do casting? 
     @Override
     public Iterator<api.EdgeData> edgeIter(int node_id) throws RuntimeException{
 //         Iterator<EdgeData> iter= mapOfEdge.values(new Point(node_id, )).iterator();
+        Iterator<Node_Data> iter= mapOfSrc.get(node_id).values().iterator();
+//        return (Iterator<EdgeData>) iter;
         return null;
     }
 
