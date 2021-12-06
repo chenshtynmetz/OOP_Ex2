@@ -58,12 +58,12 @@ class Directed_WeightedGraphTest {
     }
 
     @Test
-    HashMap<Integer,Node_Data> getMapOfNode(){
+    HashMap<Integer,NodeData> getMapOfNode(){
        return null;
     }
 
     @Test
-    HashMap<Point, Edge_Data> getMapOfEdge(){
+    HashMap<Point, EdgeData> getMapOfEdge(){
         return null;
     }
 }
