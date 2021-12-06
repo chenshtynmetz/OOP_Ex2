@@ -1,7 +1,7 @@
 package api;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
 
 public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     private Directed_WeightedGraph graph;
@@ -18,7 +18,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     @Override
     public void init(api.DirectedWeightedGraph g) {
         this.graph= (Directed_WeightedGraph) g;
-        creatMatrix(this.graph);
+        //creatMatrix(this.graph);
     }
 
     @Override
@@ -78,7 +78,47 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
 
     @Override
     public NodeData center() {
-        return null;
+        double min = Double.MAX_VALUE;
+        ArrayList<Double> shortsPath = new ArrayList<Double>();
+        ArrayList<Double> justTheShorts = new ArrayList<Double>();
+        double shortPath = 0;
+        int ind = 0;
+        NodeData NodeTmp;
+        for (int i: this.graph.getMapOfNode().keySet()){
+            double maxShortPath = 0;
+            for (int j: this.graph.getMapOfNode().keySet()){
+                shortPath = shortestPathDist(i,j);
+//                if (shortPath > maxShortPath) {
+                    maxShortPath = (shortPath > maxShortPath) ? shortPath:maxShortPath;
+//                }
+            }
+            if (maxShortPath < min){
+                min = maxShortPath;
+                ind = i;
+            }
+        }
+        NodeTmp = this.graph.getNode(ind);
+        return NodeTmp;
+    }
+
+    private double minInArray (ArrayList<Double>arr){
+        double min = arr.get(0);
+        for (int i = 0; i < arr.size()-1; i++) {
+            if (arr.get(i) > arr.get(i+1)){
+                min = arr.get(i+1);
+            }
+        }
+        return min;
+    }
+
+    private double maxInArray (ArrayList<Double> arr){
+        double max = arr.get(0);
+        for (int i = 0; i < arr.size()-1; i++) {
+            if (arr.get(i) < arr.get(i+1)){
+                max = arr.get(i+1);
+            }
+        }
+        return max;
     }
 
     @Override
@@ -102,6 +142,35 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         return false;
     }
 
+    public boolean BFS (Directed_WeightedGraph graph, Node_Data nodeSrc){
+        Queue<Node_Data> queue = new LinkedList<>();
+        queue.add(nodeSrc);
+        graph.getMapOfNode().get(nodeSrc.getKey()).setTag(GRAY);
+        //for
+        while (!(queue.isEmpty())){
+            Node_Data TmpNode = queue.poll();
+            for (int i = 0; i < graph.getMapOfSrc().get(TmpNode.getKey()).keySet().size(); i++) {
+                graph.getMapOfSrc().get(nodeSrc.getKey()).get(i).setTag(GRAY);
+                queue.add((Node_Data) graph.getMapOfSrc().get(nodeSrc.getKey()).get(i));
+            }
+            TmpNode.setTag(BLACK);
+        }
+
+        for (int i : graph.getMapOfNode().keySet()) {
+            if (graph.getMapOfNode().get(i).getTag() == WHITE) return false;
+        }
+        return true;
+    }
+
+//    public double BFS_Revers(Directed_WeightedGraph graph, Node_Data nodeSrc){
+//        return 0;
+//    }
+
+    public void cleanTag(Directed_WeightedGraph g){
+        for(Integer s : this.graph.getMapOfNode().keySet()){
+            this.graph.getMapOfNode().get(s).setTag(WHITE);
+        }
+    }
 
 
 }
