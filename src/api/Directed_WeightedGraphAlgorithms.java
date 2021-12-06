@@ -1,12 +1,13 @@
 package api;
 
+import java.io.File;
 import java.util.List;
 
 public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     private Directed_WeightedGraph graph;
 
     public Directed_WeightedGraphAlgorithms(Directed_WeightedGraph g){
-        this.graph= new Directed_WeightedGraph(g.getMapOfNode(), g.getMapOfEdge());
+//        this.graph= new Directed_WeightedGraph(g.getMapOfNode(), g.getMapOfEdge());
     }
     @Override
     public void init(api.DirectedWeightedGraph g) {
@@ -56,6 +57,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     @Override
     public boolean load(String file) {
         try {
+            File f= new File(file);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,17 +8,23 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
     private HashMap<Integer, Node_Data> mapOfNode;
     // TODO: what is the key of the mapofedge?
     private HashMap<Point, Edge_Data> mapOfEdge;
+    private HashMap<Integer, HashMap<Integer, Node_Data>> mapOfSrc;
+    private HashMap<Integer,HashMap<Integer, Node_Data>> mapOfDst;
     private int mc= 0;
 
      public Directed_WeightedGraph(){
          this.mapOfNode= new HashMap<Integer, Node_Data>();
          this.mapOfEdge= new HashMap<Point, Edge_Data>();
+         this.mapOfSrc= new HashMap<Integer,HashMap<Integer, Node_Data>>();
+         this.mapOfDst= new HashMap<Integer,HashMap<Integer, Node_Data>>();
      }
 
     // TODO: ask about hashmap.
-     public Directed_WeightedGraph(HashMap<Integer, Node_Data> map, HashMap<Point, Edge_Data> map2){
+     public Directed_WeightedGraph(HashMap<Integer, Node_Data> map, HashMap<Point, Edge_Data> map2, HashMap<Integer,HashMap<Integer, Node_Data>> map3, HashMap<Integer,HashMap<Integer, Node_Data>> map4){
          this.mapOfNode= new HashMap<Integer, Node_Data>(map);
          this.mapOfEdge= new HashMap<Point, Edge_Data>(map2);
+         this.mapOfSrc= new HashMap<Integer,HashMap<Integer, Node_Data>>(map3);
+         this.mapOfDst= new HashMap<Integer,HashMap<Integer, Node_Data>>(map4);
      }
 
      public Directed_WeightedGraph(Edge_Data e){
@@ -27,6 +33,12 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
          mapOfNode.put(e.getDest(), e.getNodeDest());
          this.mapOfEdge= new HashMap<Point, Edge_Data>();
          mapOfEdge.put(e.getId(), e);
+         this.mapOfSrc= new HashMap<Integer,HashMap<Integer, Node_Data>>();
+         mapOfSrc.put(e.getSrc(), new HashMap<Integer,Node_Data>());
+         mapOfSrc.get(e.getSrc()).put(e.getDest(), e.getNodeDest());
+         this.mapOfDst= new HashMap<Integer,HashMap<Integer, Node_Data>>();
+         mapOfDst.put(e.getDest(), new HashMap<Integer,Node_Data>());
+         mapOfSrc.get(e.getDest()).put(e.getSrc(), e.getNodeSrc());
      }
 
     @Override
@@ -43,7 +55,10 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
 
     @Override
     public void addNode(NodeData n) {
+         if(this.mapOfNode.containsKey(n.getKey())) return;
         this.mapOfNode.put(n.getKey(), new Node_Data(n.getKey(), (Geo_Location) n.getLocation(), n.getInfo(), n.getTag()));
+        this.mapOfSrc.put(n.getKey(), new HashMap<Integer, Node_Data>());
+        this.mapOfDst.put(n.getKey(), new HashMap<Integer, Node_Data>());
         this.mc++;
     }
 
@@ -54,6 +69,8 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         Point p= new  Point(src, dest);
         e.setId(p);
         this.mapOfEdge.put(e.getId(), e);
+        this.mapOfSrc.get(src).put(dest, this.mapOfNode.get(dest));
+        this.mapOfDst.get(dest).put(src, this.mapOfNode.get(src));
         this.mc++;
     }
 
