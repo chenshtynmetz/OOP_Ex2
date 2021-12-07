@@ -1,7 +1,10 @@
 package api;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     private Directed_WeightedGraph graph;
@@ -18,7 +21,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     @Override
     public void init(api.DirectedWeightedGraph g) {
         this.graph= (Directed_WeightedGraph) g;
-        //creatMatrix(this.graph);
+        creatMatrix(this.graph);
     }
 
     @Override
@@ -78,47 +81,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
 
     @Override
     public NodeData center() {
-        double min = Double.MAX_VALUE;
-        ArrayList<Double> shortsPath = new ArrayList<Double>();
-        ArrayList<Double> justTheShorts = new ArrayList<Double>();
-        double shortPath = 0;
-        int ind = 0;
-        NodeData NodeTmp;
-        for (int i: this.graph.getMapOfNode().keySet()){
-            double maxShortPath = 0;
-            for (int j: this.graph.getMapOfNode().keySet()){
-                shortPath = shortestPathDist(i,j);
-//                if (shortPath > maxShortPath) {
-                    maxShortPath = (shortPath > maxShortPath) ? shortPath:maxShortPath;
-//                }
-            }
-            if (maxShortPath < min){
-                min = maxShortPath;
-                ind = i;
-            }
-        }
-        NodeTmp = this.graph.getNode(ind);
-        return NodeTmp;
-    }
-
-    private double minInArray (ArrayList<Double>arr){
-        double min = arr.get(0);
-        for (int i = 0; i < arr.size()-1; i++) {
-            if (arr.get(i) > arr.get(i+1)){
-                min = arr.get(i+1);
-            }
-        }
-        return min;
-    }
-
-    private double maxInArray (ArrayList<Double> arr){
-        double max = arr.get(0);
-        for (int i = 0; i < arr.size()-1; i++) {
-            if (arr.get(i) < arr.get(i+1)){
-                max = arr.get(i+1);
-            }
-        }
-        return max;
+        return null;
     }
 
     @Override
