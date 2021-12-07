@@ -9,7 +9,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     private static final int WHITE = 0;
     private static final int  GRAY = 1;
     private static final int BLACK = 2;
-    private double [][] matrix;
+//    private double [][] matrix;
 
     public Directed_WeightedGraphAlgorithms(Directed_WeightedGraph g){
         this.graph= new Directed_WeightedGraph(g.getMapOfNode(), g.getMapOfEdge(), g.getMapOfSrc(), g.getMapOfDst());
@@ -43,14 +43,14 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         return true;
     }
 
-    private void creatMatrix(Directed_WeightedGraph  g){
-        this.matrix= new double[this.graph.getMapOfNode().size()][this.graph.getMapOfNode().size()];
-        for(Integer s : this.graph.getMapOfSrc().keySet()){
-            for(Integer d : this.graph.getMapOfSrc().keySet()){
-                matrix[s][d]= this.graph.getMapOfSrc().get(s).get(d).getWeight();
-            }
-        }
-    }
+//    private void creatMatrix(Directed_WeightedGraph  g){
+//        this.matrix= new double[this.graph.getMapOfNode().size()][this.graph.getMapOfNode().size()];
+//        for(Integer s : this.graph.getMapOfSrc().keySet()){
+//            for(Integer d : this.graph.getMapOfSrc().keySet()){
+//                matrix[s][d]= this.graph.getMapOfSrc().get(s).get(d).getWeight();
+//            }
+//        }
+//    }
     @Override
     public double shortestPathDist(int src, int dest) {
         double[] arr= new double[(this.graph.nodeSize()-1)*3];
@@ -198,9 +198,39 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         return max;
     }
 
+    // TODO: 07/12/2021 maybe to do arraylist for all the options to beagining vertex.
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return null;
+        List<NodeData> path= new LinkedList<>();
+        int minimumstart= 0;
+        double mindis= Integer.MAX_VALUE;
+        for(int i=0; i<cities.size(); i++){
+            for(int j=1; j<cities.size(); j++){
+                double dis= this.shortestPathDist(i, j);
+                if(mindis > dis){
+                    mindis = dis;
+                    minimumstart= i;
+                }
+            }
+        }
+        double min= Integer.MAX_VALUE;
+        int tempkey= -1;
+        Node_Data tempnode= (Node_Data) cities.remove(minimumstart);
+        path.add(tempnode);
+        while (!cities.isEmpty()) {
+            for (Integer s : this.graph.getMapOfSrc().get(tempnode.getKey()).keySet()) {
+                if (cities.contains(this.graph.getNode(s))) {
+                    double dis= this.shortestPathDist(tempnode.getKey(), s);
+                    if (min > dis) {
+                        min = dis;
+                        tempkey= s;
+                    }
+                }
+            }
+            tempnode= (Node_Data) cities.remove(cities.indexOf(this.graph.getNode(tempkey)));
+            path.add(tempnode);
+        }
+        return path;
     }
 
     @Override
@@ -226,9 +256,13 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         //for
         while (!(queue.isEmpty())){
             Node_Data TmpNode = queue.poll();
+//            for(int i: graph.getMapOfSrc().get(TmpNode.getKey()).keySet()){
             for (int i = 0; i < graph.getMapOfSrc().get(TmpNode.getKey()).keySet().size(); i++) {
-                graph.getMapOfSrc().get(nodeSrc.getKey()).get(i).setTag(GRAY);
-                queue.add((Node_Data) graph.getMapOfSrc().get(nodeSrc.getKey()).get(i));
+//                graph.getMapOfSrc().get(nodeSrc.getKey()).get(i).setTag(GRAY);
+                // TODO: 07/12/2021 this is the problem. e==null 
+                Edge_Data e= (Edge_Data) graph.getMapOfSrc().get(TmpNode.getKey()).get(i);
+                e.getNodeDest().setTag(GRAY);
+                queue.add(e.getNodeDest());
             }
             TmpNode.setTag(BLACK);
         }
