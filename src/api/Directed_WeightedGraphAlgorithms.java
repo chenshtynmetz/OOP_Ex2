@@ -53,27 +53,103 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     }
     @Override
     public double shortestPathDist(int src, int dest) {
-//        while (this.graph.edgeIter(src).hasNext()){
-//            if(this.graph.getMapOfSrc().get(src).get(dest).getWeight() < path)
-//                path= this.graph.getMapOfSrc().get(src).get(dest).getWeight();
-//        }
-        // TODO: 06/12/2021 this like the task on c, check if this good. 
-//        for(int k=0; k<this.matrix.length; k++) {
-//            for (int i = 0; i < this.matrix.length; i++) {
-//                for (int j = 0; j < this.matrix.length; j++) {
-//                    if(i==j) continue;
-//                    matrix[i][j]= Math.min(matrix[i][j], (matrix[i][k]+matrix[k][j]));
-//                }
-//            }
-//        }
-        return matrix[src][dest];
+        double[] arr= new double[(this.graph.nodeSize()-1)*3];
+        int i= 0;
+        int start= -1;
+        for(Integer s: this.graph.getMapOfNode().keySet()) {
+            if(s == src) {
+                start= i;
+                i=i+3;
+                continue;
+            }
+            arr[i] = s;
+            if(this.graph.getMapOfSrc().get(src).containsKey(s))
+                arr[i + 1] = this.graph.getMapOfSrc().get(src).get(s).getWeight();
+            else
+                arr[i+1] = Integer.MAX_VALUE;
+            arr[i + 2] = src + 0.0;
+            i = i + 3;
+        }
+//        int start= src;
+        while (arr[start] != dest){
+            int min= minInArr(arr)-1;
+            arr[min+2]+= 0.1;
+            start= min;
+            i=0;
+            for(Integer s: this.graph.getMapOfNode().keySet()){
+                if(s==start){
+                    i= i+3;
+                    continue;
+                }
+                if(this.graph.getMapOfSrc().get(start).containsKey(s)){
+                    int tag= (int) arr[i+2];
+                    if(arr[i+2] - tag != 0) continue;
+                    if(arr[i+1] > this.graph.getMapOfSrc().get(start).get(s).getWeight()){
+                        arr[i+1]= this.graph.getMapOfSrc().get(start).get(s).getWeight();
+                        arr[i+2]= arr[start]+ 0.0;
+                    }
+                }
+                i= i+3;
+            }
+        }
+        return arr[start+1];
     }
 
+    private int minInArr(double[] arr){
+        int min= 1;
+        for(int i=4; i<arr.length; i+=3){
+            if(arr[i] < arr[min])
+                min= i;
+        }
+        return min;
+    }
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
         List<NodeData> path= new LinkedList<>();
         path.add(this.graph.getNode(src));
-
+        double[] arr= new double[(this.graph.nodeSize()-1)*3];
+        int i= 0;
+//        int srcindex= -1;
+        int start= -1;
+        for(Integer s: this.graph.getMapOfNode().keySet()) {
+            if(s == src) {
+                start= i;
+                i=i+3;
+                continue;
+            }
+            arr[i] = s;
+            if(this.graph.getMapOfSrc().get(src).containsKey(s))
+                arr[i + 1] = this.graph.getMapOfSrc().get(src).get(s).getWeight();
+            else
+                arr[i+1] = Integer.MAX_VALUE;
+            arr[i + 2] = src + 0.0;
+            i = i + 3;
+        }
+//        int start= src;
+        while (arr[start] != dest){
+            int min= minInArr(arr)-1;
+            arr[min+2]+= 0.1;
+            start= min;
+            i=0;
+            for(Integer s: this.graph.getMapOfNode().keySet()){
+                if(s==start){
+                    i= i+3;
+                    continue;
+                }
+                if(this.graph.getMapOfSrc().get(start).containsKey(s)){
+                    int tag= (int) arr[i+2];
+                    if(arr[i+2] - tag != 0) continue;
+                    if(arr[i+1] > this.graph.getMapOfSrc().get(start).get(s).getWeight()){
+                        arr[i+1]= this.graph.getMapOfSrc().get(start).get(s).getWeight();
+                        arr[i+2]= arr[start]+ 0.0;
+                        if(s == dest)
+                            path.add(this.graph.getNode((int) arr[start]));
+                    }
+                }
+                i= i+3;
+            }
+        }
+        path.add(0, this.graph.getNode(dest));
         return path;
     }
 
