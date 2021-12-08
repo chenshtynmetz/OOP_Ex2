@@ -9,7 +9,7 @@ import java.util.*;
 public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     private Directed_WeightedGraph graph;
     private static final int WHITE = 0;
-    private static final int  GRAY = 1;
+    private static final int  GRAY = 11;
     private static final int BLACK = 2;
 //    private double [][] matrix;
 
