@@ -283,10 +283,17 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
             double maxShortPath = 0;
             int temp= -1;
             for (int j: this.graph.getMapOfNode().keySet()){
-                shortPath = shortestPathDist(i,j);
+                if (i != j) {
+                    shortPath = shortestPathDist(j, i);
 //                if (shortPath > maxShortPath) {
-                maxShortPath = (shortPath > maxShortPath) ? shortPath:maxShortPath;
+                    if (shortPath > maxShortPath){
+                        maxShortPath = shortPath;
+                        temp = j;
+                    }
+//                    maxShortPath = (shortPath > maxShortPath) ? shortPath : maxShortPath;
+//                    temp=j;
 //                }
+                }
             }
             if (maxShortPath < min){
                 min = maxShortPath;
