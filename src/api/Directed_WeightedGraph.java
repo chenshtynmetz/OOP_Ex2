@@ -46,9 +46,11 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
          this.mapOfSrc= new HashMap<Integer,HashMap<Integer, EdgeData>>();
          mapOfSrc.put(e.getSrc(), new HashMap<Integer,EdgeData>());
          mapOfSrc.get(e.getSrc()).put(e.getDest(), e);
+         mapOfSrc.put(e.getDest(), new HashMap<Integer,EdgeData>());
          this.mapOfDst= new HashMap<Integer,HashMap<Integer, EdgeData>>();
          mapOfDst.put(e.getDest(), new HashMap<Integer,EdgeData>());
-         mapOfSrc.get(e.getDest()).put(e.getSrc(), e);
+         mapOfDst.get(e.getDest()).put(e.getSrc(), e);
+         mapOfDst.put(e.getSrc(), new HashMap<Integer,EdgeData>());
      }
 
     @Override
@@ -75,7 +77,7 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
     @Override
     public void connect(int src, int dest, double w) {
         Edge_Data e= new Edge_Data((Node_Data) this.mapOfNode.get(src), (Node_Data) this.mapOfNode.get(dest), w, "", 0 );
-        Point p= new  Point(src, dest);
+        Point p= new Point(src, dest);
         e.setId(p);
         this.mapOfEdge.put(e.getId(), e);
         this.mapOfSrc.get(src).put(dest, e);
@@ -104,8 +106,20 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
 
     @Override
     public NodeData removeNode(int key) {
+         for(Integer s: this.mapOfSrc.get(key).keySet()){
+             this.mapOfEdge.remove(this.mapOfSrc.get(key).get(s));
+         }
+         this.mapOfSrc.remove(key);
+        for(Integer d: this.mapOfDst.get(key).keySet()){
+            this.mapOfEdge.remove(this.mapOfDst.get(key).get(d));
+        }
+        this.mapOfDst.remove(key);
         this.mapOfSrc.remove(key);
         this.mapOfDst.remove(key);
+        for(Point p: this.mapOfEdge.keySet()){
+            if(p.x == key || p.y == key)
+                this.mapOfEdge.remove(p);
+        }
         this.mc++;
          return this.mapOfNode.remove(key);
     }
