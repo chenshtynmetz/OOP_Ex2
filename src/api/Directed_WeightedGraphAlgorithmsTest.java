@@ -39,18 +39,18 @@ class Directed_WeightedGraphAlgorithmsTest {
         assertEquals(gr1.getEdge(1,2), ans.getEdge(1,2));
     }
 
-//    @Test
-//    void isConnected() {
-//        gr1.addNode(n3);
-//        gr1.addNode(n4);
-//        gr1.addNode(n5);
-//        gr1.connect(n3.getKey(), n1.getKey(), 0.7);
-//        gr1.connect(2, 5, 5.64);
-//        gr1.connect(1,4, 2.33);
-//        gr1.connect(5,3, 8.1);
-//        gr1.connect(4,1,1.7);
-//        assertEquals(true, alg1.isConnected());
-//    }
+    @Test
+    void isConnected() {
+        alg1.getGraph().addNode(n3);
+        alg1.getGraph().addNode(n4);
+        alg1.getGraph().addNode(n5);
+        alg1.getGraph().connect(3, 1, 0.7);
+        alg1.getGraph().connect(2, 5, 5.64);
+        alg1.getGraph().connect(1,4, 2.33);
+        alg1.getGraph().connect(5,3, 8.1);
+        alg1.getGraph().connect(4,1,1.7);
+        assertEquals(true, alg1.isConnected());
+    }
 
     @Test
     void shortestPathDist() {

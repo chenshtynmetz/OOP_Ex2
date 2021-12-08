@@ -9,7 +9,7 @@ import java.util.*;
 public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     private Directed_WeightedGraph graph;
     private static final int WHITE = 0;
-    private static final int  GRAY = 11;
+    private static final int  GRAY = 1;
     private static final int BLACK = 2;
 //    private double [][] matrix;
 
@@ -37,11 +37,49 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
 
     @Override
     public boolean isConnected() {
-        for(Integer s : this.graph.getMapOfNode().keySet()){
-            boolean path= BFS(this.graph, (Node_Data) this.graph.getMapOfNode().get(s));
-            this.cleanTag(this.graph);
-            if(!path) return false;
+        List<NodeData> haveedge = new LinkedList<>();
+        List<NodeData> nothavedge = new LinkedList<>();
+
+        for (Integer s : this.graph.getMapOfNode().keySet()) {
+            nothavedge.add(this.graph.getNode(s));
+//            boolean path= BFS(this.graph, (Node_Data) this.graph.getMapOfNode().get(s));
+//            this.cleanTag(this.graph);
+//            if(!path) return false;
         }
+        NodeData head = nothavedge.remove(0);
+        cleanTag(this.graph);
+        boolean path = BFS(this.graph, (Node_Data) head);
+        cleanTag(this.graph);
+        if (!path) return false;
+        NodeData temp;
+        for (int i = 0; i < nothavedge.size(); i++) {
+            if (this.graph.getMapOfSrc().get(head.getKey()).containsKey(nothavedge.get(i).getKey())) {
+                temp = nothavedge.remove(i);
+                haveedge.add(temp);
+            }
+        }
+        if (nothavedge.isEmpty()) return true;
+        while (!nothavedge.isEmpty()){
+//            int i=0;
+            int size= nothavedge.size();
+            boolean enter= false;
+            for (int i=0; i<nothavedge.size() || enter==true; ){
+                for (int j=0; j<haveedge.size(); j++){
+                    if(this.graph.getMapOfSrc().get(haveedge.get(j).getKey()).containsKey(nothavedge.get(i).getKey())) {
+                        temp = nothavedge.remove(i);
+                        haveedge.add(temp);
+                        enter = true;
+                        break;
+                    }
+                }
+                if(enter == false) i++;
+//                else {
+//                    enter= false;
+////                    i=0;
+//                }
+            }
+                if (size == nothavedge.size()) return false;
+    }
         return true;
     }
 
@@ -335,8 +373,8 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         //for
         while (!(queue.isEmpty())){
             Node_Data TmpNode = queue.poll();
-//            for(int i: graph.getMapOfSrc().get(TmpNode.getKey()).keySet()){
-            for (int i = 0; i < graph.getMapOfSrc().get(TmpNode.getKey()).keySet().size(); i++) {
+            for(int i: graph.getMapOfSrc().get(TmpNode.getKey()).keySet()){
+//            for (int i = 0; i < graph.getMapOfSrc().get(TmpNode.getKey()).size(); i++) {
 //                graph.getMapOfSrc().get(nodeSrc.getKey()).get(i).setTag(GRAY);
                 // TODO: 07/12/2021 this is the problem. e==null 
                 Edge_Data e= (Edge_Data) graph.getMapOfSrc().get(TmpNode.getKey()).get(i);

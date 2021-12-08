@@ -106,13 +106,17 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
 
     @Override
     public NodeData removeNode(int key) {
-         for(Integer s: this.mapOfSrc.get(key).keySet()){
-             this.mapOfEdge.remove(this.mapOfSrc.get(key).get(s));
+         if(this.mapOfSrc.get(key) != null) {
+             for (Integer s : this.mapOfSrc.get(key).keySet()) {
+                 this.mapOfEdge.remove(this.mapOfSrc.get(key).get(s));
+             }
          }
          this.mapOfSrc.remove(key);
-        for(Integer d: this.mapOfDst.get(key).keySet()){
-            this.mapOfEdge.remove(this.mapOfDst.get(key).get(d));
-        }
+         if (this.mapOfDst.get(key) != null) {
+             for (Integer d : this.mapOfDst.get(key).keySet()) {
+                 this.mapOfEdge.remove(this.mapOfDst.get(key).get(d));
+             }
+         }
         this.mapOfDst.remove(key);
         this.mapOfSrc.remove(key);
         this.mapOfDst.remove(key);
