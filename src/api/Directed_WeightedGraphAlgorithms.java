@@ -64,7 +64,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
             int size= nothavedge.size();
             boolean enter= false;
             for (int i=0; i<nothavedge.size() || enter==true; ){
-                for (int j=0; j<haveedge.size(); j++){
+                for (int j=0; j<haveedge.size() || i<nothavedge.size(); j++){
                     if(this.graph.getMapOfSrc().get(haveedge.get(j).getKey()).containsKey(nothavedge.get(i).getKey())) {
                         temp = nothavedge.remove(i);
                         haveedge.add(temp);
