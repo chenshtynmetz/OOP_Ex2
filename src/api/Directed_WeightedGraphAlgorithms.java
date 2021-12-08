@@ -19,7 +19,10 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         this.graph= new Directed_WeightedGraph(g.getMapOfNode(), g.getMapOfEdge(), g.getMapOfSrc(), g.getMapOfDst());
     }
 
-//    public Directed_WeightedGraphAlgorithms()
+    // constructor using load methood
+    public Directed_WeightedGraphAlgorithms(String file){
+        this.load(file);
+    }
 
     // TODO: 06/12/2021 copy deep or not? check this
     @Override

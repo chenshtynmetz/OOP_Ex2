@@ -211,7 +211,13 @@ class Directed_WeightedGraphAlgorithmsTest {
         lg1.connect(15,14,1.635946027210021);
         lg1.connect(16,0,1.4418017651347552);
         lg1.connect(16,15,1.5677693324851103);
-
+        Directed_WeightedGraphAlgorithms alg2= new Directed_WeightedGraphAlgorithms("G1.json");
+        Directed_WeightedGraph lg2= (Directed_WeightedGraph) alg2.getGraph();
+//        for(int i: lg1.getMapOfNode().keySet()){
+//            for (int j: lg2.getMapOfNode().keySet()) {
+//                assertEquals(i, j);
+//            }
+//        }
 
 
 
