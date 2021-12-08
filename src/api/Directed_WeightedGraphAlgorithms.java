@@ -286,13 +286,13 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
             o.addProperty("id", n.getKey());
             nodes.add(o);
 
-//            for (EdgeData e : this.graph.edgeIter(n.getKey())){ //  .getE(n.getKey())) {
-//                JsonObject edge = new JsonObject();
-//                edge.addProperty("src", e.getSrc());
-//                edge.addProperty("w", e.getWeight());
-//                edge.addProperty("dest", e.getDest());
-//                edges.add(edge);
-//            }
+            for (EdgeData e : this.graph.getMapOfSrc().get(n.getKey()).values()){ //  .getE(n.getKey())) {
+                JsonObject edge = new JsonObject();
+                edge.addProperty("src", e.getSrc());
+                edge.addProperty("w", e.getWeight());
+                edge.addProperty("dest", e.getDest());
+                edges.add(edge);
+            }
         }
         graph.add("Nodes", nodes);
         graph.add("Edges", edges);
@@ -369,17 +369,20 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     public boolean BFS (Directed_WeightedGraph graph, Node_Data nodeSrc){
         Queue<Node_Data> queue = new LinkedList<>();
         queue.add(nodeSrc);
-        graph.getMapOfNode().get(nodeSrc.getKey()).setTag(GRAY);
+        //graph.getMapOfNode().get(nodeSrc.getKey()).setTag(GRAY);
         //for
-        while (!(queue.isEmpty())){
+        while (!(queue.isEmpty())) {
             Node_Data TmpNode = queue.poll();
-            for(int i: graph.getMapOfSrc().get(TmpNode.getKey()).keySet()){
+            for (int i : graph.getMapOfSrc().get(TmpNode.getKey()).keySet()) {
+                if (TmpNode.getTag() == WHITE) {
 //            for (int i = 0; i < graph.getMapOfSrc().get(TmpNode.getKey()).size(); i++) {
 //                graph.getMapOfSrc().get(nodeSrc.getKey()).get(i).setTag(GRAY);
-                // TODO: 07/12/2021 this is the problem. e==null 
-                Edge_Data e= (Edge_Data) graph.getMapOfSrc().get(TmpNode.getKey()).get(i);
-                e.getNodeDest().setTag(GRAY);
-                queue.add(e.getNodeDest());
+                    // TODO: 07/12/2021 this is the problem. e==null
+                    Edge_Data e = (Edge_Data) graph.getMapOfSrc().get(TmpNode.getKey()).get(i);
+                    //e.getNodeDest().setTag(GRAY);
+                    queue.add(e.getNodeDest());
+                }
+
             }
             TmpNode.setTag(BLACK);
         }

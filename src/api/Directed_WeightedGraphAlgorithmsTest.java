@@ -49,6 +49,7 @@ class Directed_WeightedGraphAlgorithmsTest {
         alg1.getGraph().connect(1,4, 2.33);
         alg1.getGraph().connect(5,3, 8.1);
         alg1.getGraph().connect(4,1,1.7);
+        boolean f = alg1.isConnected();
         assertEquals(true, alg1.isConnected());
     }
 
