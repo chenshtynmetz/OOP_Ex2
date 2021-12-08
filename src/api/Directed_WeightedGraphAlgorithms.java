@@ -1,6 +1,8 @@
 package api;
 
-import java.io.File;
+import com.google.gson.*;
+
+import java.io.*;
 import java.util.*;
 
 
@@ -235,19 +237,96 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
 
     @Override
     public boolean save(String file) {
-        return false;
+        Gson json = new GsonBuilder().create();
+        JsonArray nodes = new JsonArray();
+        JsonArray edges = new JsonArray();
+        JsonObject graph = new JsonObject();
+        for (NodeData n : this.graph.getMapOfNode().values()) {
+            JsonObject o = new JsonObject();
+            double location = n.getLocation().x(), y = n.getLocation().y(), z = n.getLocation().z();
+            o.addProperty("pos", location + "," + y + "," + z);
+            o.addProperty("id", n.getKey());
+            nodes.add(o);
+
+//            for (EdgeData e : this.graph.edgeIter(n.getKey())){ //  .getE(n.getKey())) {
+//                JsonObject edge = new JsonObject();
+//                edge.addProperty("src", e.getSrc());
+//                edge.addProperty("w", e.getWeight());
+//                edge.addProperty("dest", e.getDest());
+//                edges.add(edge);
+//            }
+        }
+        graph.add("Nodes", nodes);
+        graph.add("Edges", edges);
+        File x = new File(file);
+        try {
+            FileWriter fileWriter = new FileWriter(x);
+            fileWriter.write(json.toJson(graph));
+            fileWriter.close();
+            return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     @Override
     public boolean load(String file) {
+        DirectedWeightedGraph graph1 = new Directed_WeightedGraph();
+        JsonObject graph;
+        File f = new File(file);
         try {
-            File f= new File(file);
+            FileReader reader = new FileReader(f);
+            graph = new JsonParser().parse(reader).getAsJsonObject();
+            JsonArray nodes = graph.getAsJsonArray("Nodes");
+            JsonArray edges = graph.getAsJsonArray("Edges");
 
-        } catch (Exception e) {
+            for (JsonElement n : nodes) {
+
+                int id = ((JsonObject) n).get("id").getAsInt();
+                double x1 = 0;
+                double x2 = 0;
+                double x3 = 0;
+                String pos = ((JsonObject) n).get("pos").getAsString();
+                String x="";
+                int counter=0;
+                for (int i = 0; i < pos.length(); i++) {
+                    if(pos.charAt(i)==','){
+                        if(counter==0) x1=Double.parseDouble(x);
+                        if(counter==1) x2=Double.parseDouble(x);
+                        if(counter==2) x3=Double.parseDouble(x);
+                        counter++;
+                        x="";
+                    }
+                    else{
+                        x=x + pos.charAt(i);
+                    }
+                }
+                GeoLocation location = new Geo_Location(x1, x2, x3);
+                NodeData n1 = new Node_Data(id, (Geo_Location) location);
+                graph1.addNode(n1);
+            }
+
+            for (JsonElement e : edges) {
+                int src = ((JsonObject) e).get("src").getAsInt();
+                double weight = ((JsonObject) e).get("w").getAsDouble();
+                int dest = ((JsonObject) e).get("dest").getAsInt();
+
+//                EdgeData e1 = new Edge_Data(src, dest, weight);
+//                graph1.connect(e1.getSrc(), e1.getDest(), e1.getWeight());
+            }
+            this.graph = (Directed_WeightedGraph) graph1;
+            return true;
+
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
         return false;
     }
+
 
     public boolean BFS (Directed_WeightedGraph graph, Node_Data nodeSrc){
         Queue<Node_Data> queue = new LinkedList<>();

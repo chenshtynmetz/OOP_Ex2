@@ -34,6 +34,15 @@ public class Edge_Data implements EdgeData{
         this.id= new Point(src.getKey(), dst.getKey());
     }
 
+    public Edge_Data(Node_Data src, Node_Data dst, double weight){
+        this.src= src;
+        this.dst= dst;
+        this.weight= weight;
+        this.info= "";
+        this.tag= WHITE;
+        this.id= new Point(src.getKey(), dst.getKey());
+    }
+
     @Override
     public int getSrc() {
         return this.src.getKey();
