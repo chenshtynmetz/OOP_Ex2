@@ -10,7 +10,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     private Directed_WeightedGraph graph;
     private static final int WHITE = 0;
     private static final int  GRAY = 1;
-    private static final int BLACK = 21;
+    private static final int BLACK = 1;
 //    private double [][] matrix;
 
     public Directed_WeightedGraphAlgorithms(Directed_WeightedGraph g){
