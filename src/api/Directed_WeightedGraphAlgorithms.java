@@ -9,12 +9,14 @@ import java.util.List;
 
 
 public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAlgorithms{
+    // properties
     private Directed_WeightedGraph graph;
+    // final variable for tag
     private static final int WHITE = 0;
     private static final int  GRAY = 1;
     private static final int BLACK = 2;
-//    private double [][] matrix;
 
+    // constructors;
     public Directed_WeightedGraphAlgorithms(Directed_WeightedGraph g){
         this.graph= new Directed_WeightedGraph(g.getMapOfNode(), g.getMapOfEdge(), g.getMapOfSrc(), g.getMapOfDst());
     }
@@ -42,6 +44,8 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         return (DirectedWeightedGraph) g;
     }
 
+    // in this function we send the first node to BFS algo.
+    //
     @Override
     public boolean isConnected() {
         List<NodeData> haveedge = new LinkedList<>();
@@ -287,6 +291,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
             int temp= -1;
             for (int j: this.graph.getMapOfNode().keySet()){
                 if (i != j) {
+                    cleanTag(this.graph);
                     shortPath = shortestPathDist(j, i);
 //                if (shortPath > maxShortPath) {
                     if (shortPath > maxShortPath){

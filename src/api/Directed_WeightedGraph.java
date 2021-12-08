@@ -5,15 +5,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Directed_WeightedGraph implements DirectedWeightedGraph {
+    // properties
     private HashMap<Integer, NodeData> mapOfNode;
     private HashMap<Point, EdgeData> mapOfEdge;
     private HashMap<Integer, HashMap<Integer, EdgeData>> mapOfSrc;
     private HashMap<Integer,HashMap<Integer, EdgeData>> mapOfDst;
     private int mc= 0;
+    // final variable for tag
     private static final int WHITE = 0;
     private static final int GRAY = 1;
     private static final int BLACK = 2;
 
+    // defult constructor
      public Directed_WeightedGraph(){
          this.mapOfNode= new HashMap<Integer, NodeData>();
          this.mapOfEdge= new HashMap<Point, EdgeData>();
@@ -21,7 +24,8 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
          this.mapOfDst= new HashMap<Integer,HashMap<Integer, EdgeData>>();
      }
 
-    // TODO: 06/12/2021 deep copy or not? 
+    // TODO: 06/12/2021 deep copy or not?
+    // copy constructor
      public Directed_WeightedGraph(Directed_WeightedGraph other){
          this.mapOfNode= other.getMapOfNode();
          this.mapOfSrc= other.getMapOfSrc();
@@ -30,6 +34,7 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
      }
 
     // TODO: ask about hashmap.
+    // constructors
      public Directed_WeightedGraph(HashMap<Integer, NodeData> map, HashMap<Point, EdgeData> map2, HashMap<Integer,HashMap<Integer, EdgeData>> map3, HashMap<Integer,HashMap<Integer, EdgeData>> map4){
          this.mapOfNode= new HashMap<Integer, NodeData>(map);
          this.mapOfEdge= new HashMap<Point, EdgeData>(map2);
@@ -53,6 +58,7 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
          mapOfDst.put(e.getSrc(), new HashMap<Integer,EdgeData>());
      }
 
+     // Getters and Setters
     @Override
     public NodeData getNode(int key) {
         return this.mapOfNode.get(key);
@@ -64,6 +70,7 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         return this.mapOfEdge.get(p);
     }
 
+    // add node to the graph
     @Override
     public void addNode(NodeData n) {
          if(this.mapOfNode.containsKey(n.getKey())) return;
@@ -74,6 +81,7 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
     }
 
     // TODO: 05/12/2021 this correct? and what is it the info and the tag of the edge?
+    // create edge between src and dest and add this edge to the graph
     @Override
     public void connect(int src, int dest, double w) {
         Edge_Data e= new Edge_Data((Node_Data) this.mapOfNode.get(src), (Node_Data) this.mapOfNode.get(dest), w, "", 0 );
@@ -85,6 +93,7 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         this.mc++;
     }
 
+    // create iterators
     @Override
     public Iterator<NodeData> nodeIter() throws RuntimeException {
         Iterator<NodeData> iter = mapOfNode.values().iterator();
@@ -104,6 +113,7 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         return iter;
     }
 
+    // remove items from the graph
     @Override
     public NodeData removeNode(int key) {
          if(this.mapOfSrc.get(key) != null) {
@@ -130,13 +140,13 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
 
     @Override
     public api.EdgeData removeEdge(int src, int dest) {
-         this.mapOfSrc.get(src).remove(dest);
-         this.mapOfDst.get(dest).remove(src);
-         this.mc++;
-         Point p= new Point(src, dest);
-         return this.mapOfEdge.remove(p);
+        this.mapOfSrc.get(src).remove(dest);
+        this.mapOfDst.get(dest).remove(src);
+        this.mc++;
+        Point p = new Point(src, dest);
+        return this.mapOfEdge.remove(p);
     }
-
+    // more getters
     @Override
     public int nodeSize() {
         return this.mapOfNode.size();

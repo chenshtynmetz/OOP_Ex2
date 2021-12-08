@@ -4,16 +4,19 @@ import java.awt.*;
 
 // TODO: האם הפרטים של הצלע כמו המשקל והאינפו מושפעים מהקודקודים או שהם בפני עצמם?
 public class Edge_Data implements EdgeData{
+    // properties
     private Node_Data src;
     private Node_Data dst;
     private double weight;
     private String info;
     private int tag;
     private Point id;
+    // final variable for tag
     private static final int WHITE = 0;
     private static final int GRAY = 1;
     private static final int BLACK = 2;
 
+    // defult constructor
     public Edge_Data(){
         this.src= new Node_Data();
         this.dst= new Node_Data();
@@ -21,10 +24,10 @@ public class Edge_Data implements EdgeData{
         this.info= "";
         this.tag= 0;
         this.id= new Point(0,0);
-
     }
 
     // TODO: deep copy or not?
+    // constructors
     public Edge_Data(Node_Data src, Node_Data dst, double weight, String info, int tag){
         this.src= src;
         this.dst= dst;
@@ -43,6 +46,7 @@ public class Edge_Data implements EdgeData{
         this.id= new Point(src.getKey(), dst.getKey());
     }
 
+    // Getters and Setters
     @Override
     public int getSrc() {
         return this.src.getKey();

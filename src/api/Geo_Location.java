@@ -1,21 +1,24 @@
 package api;
-public class Geo_Location implements GeoLocation{
+public class Geo_Location implements GeoLocation {
+    // properties
     private double x;
     private double y;
     private double z;
 
-
+    // constractor
     public Geo_Location (double x, double y, double z){
         this.x = x;
         this.y = y;
         this.z = z;
     }
+    // defult constractor
     public Geo_Location(){
         this.x = 0;
         this.y = 0;
         this.z = 0;
     }
 
+    // Getters
     @Override
     public double x() {
         return this.x;
@@ -31,6 +34,7 @@ public class Geo_Location implements GeoLocation{
         return this.z;
     }
 
+    // distance methood
     @Override
     public double distance(api.GeoLocation g) {
         double minusX = this.x - g.x();
