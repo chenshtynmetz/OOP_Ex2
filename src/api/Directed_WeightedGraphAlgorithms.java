@@ -2,8 +2,10 @@ package api;
 
 import com.google.gson.*;
 
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 
 public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAlgorithms{
@@ -16,6 +18,8 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     public Directed_WeightedGraphAlgorithms(Directed_WeightedGraph g){
         this.graph= new Directed_WeightedGraph(g.getMapOfNode(), g.getMapOfEdge(), g.getMapOfSrc(), g.getMapOfDst());
     }
+
+//    public Directed_WeightedGraphAlgorithms()
 
     // TODO: 06/12/2021 copy deep or not? check this
     @Override
@@ -52,20 +56,21 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         cleanTag(this.graph);
         if (!path) return false;
         NodeData temp;
-        for (int i = 0; i < nothavedge.size(); i++) {
-            if (this.graph.getMapOfSrc().get(head.getKey()).containsKey(nothavedge.get(i).getKey())) {
+        for (int i = 0; i < nothavedge.size(); ) {
+            if (this.graph.getMapOfSrc().get(nothavedge.get(i).getKey()).containsKey(head.getKey())) {
                 temp = nothavedge.remove(i);
                 haveedge.add(temp);
             }
+            else i++;
         }
         if (nothavedge.isEmpty()) return true;
         while (!nothavedge.isEmpty()){
 //            int i=0;
             int size= nothavedge.size();
             boolean enter= false;
-            for (int i=0; i<nothavedge.size() || enter==true; ){
-                for (int j=0; j<haveedge.size() || i<nothavedge.size(); j++){
-                    if(this.graph.getMapOfSrc().get(haveedge.get(j).getKey()).containsKey(nothavedge.get(i).getKey())) {
+            for (int i=0; i<nothavedge.size() && enter==false; ){
+                for (int j=0; j<haveedge.size() && i<nothavedge.size(); j++){
+                    if(this.graph.getMapOfSrc().get(nothavedge.get(i).getKey()).containsKey(haveedge.get(j).getKey())) {
                         temp = nothavedge.remove(i);
                         haveedge.add(temp);
                         enter = true;
@@ -93,12 +98,17 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
 //    }
     @Override
     public double shortestPathDist(int src, int dest) {
-        double[] arr= new double[(this.graph.nodeSize()-1)*3];
+        if(src== dest) return 0;
+        double[] arr= new double[(this.graph.nodeSize())*3];
         int i= 0;
         int start= -1;
         for(Integer s: this.graph.getMapOfNode().keySet()) {
             if(s == src) {
-                start= i;
+                start= i+1;
+                arr[i]= src;
+                arr[i+1]= 0;
+                arr[i+2]= src+0.1;
+                this.graph.getMapOfNode().get(s).setTag(1);
                 i=i+3;
                 continue;
             }
@@ -106,54 +116,68 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
             if(this.graph.getMapOfSrc().get(src).containsKey(s))
                 arr[i + 1] = this.graph.getMapOfSrc().get(src).get(s).getWeight();
             else
-                arr[i+1] = Integer.MAX_VALUE;
+                arr[i+1] = Integer.MAX_VALUE-10;
             arr[i + 2] = src + 0.0;
             i = i + 3;
         }
 //        int start= src;
-        while (arr[start] != dest){
-            int min= minInArr(arr)-1;
-            arr[min+2]+= 0.1;
-            start= min;
+        int min= minInArr(arr);
+        arr[min+1]+= 0.1;
+        this.graph.getMapOfNode().get((int)arr[min-1]).setTag(1);
+        start= min;
+        while (arr[start-1] != dest){
             i=0;
             for(Integer s: this.graph.getMapOfNode().keySet()){
-                if(s==start){
+                if(s==arr[start-1] || this.graph.getMapOfNode().get(s).getTag() == 1){
                     i= i+3;
                     continue;
                 }
-                if(this.graph.getMapOfSrc().get(start).containsKey(s)){
+//                if(!this.graph.getMapOfSrc().get(start).isEmpty()){
+                if(this.graph.getMapOfSrc().get((int)arr[start-1]).containsKey(s)){
                     int tag= (int) arr[i+2];
                     if(arr[i+2] - tag != 0) continue;
-                    if(arr[i+1] > this.graph.getMapOfSrc().get(start).get(s).getWeight()){
-                        arr[i+1]= this.graph.getMapOfSrc().get(start).get(s).getWeight();
-                        arr[i+2]= arr[start]+ 0.0;
+                    if(arr[i+1] > this.graph.getMapOfSrc().get((int)arr[start-1]).get(s).getWeight()){
+                        arr[i+1]= arr[start]+ this.graph.getMapOfSrc().get((int)arr[start-1]).get(s).getWeight();
+                        arr[i+2]= arr[start-1]+ 0.0;
                     }
                 }
+//                }
                 i= i+3;
             }
+            min= minInArr(arr);
+            arr[min+1]+= 0.1;
+            this.graph.getMapOfNode().get((int)arr[min-1]).setTag(1);
+            start= min;
         }
-        return arr[start+1];
+        return arr[start];
     }
 
     private int minInArr(double[] arr){
         int min= 1;
-        for(int i=4; i<arr.length; i+=3){
-            if(arr[i] < arr[min])
+        while ((arr[min+1]- (int) arr[min+1]) != 0) {
+            min = min + 3;
+        }
+        for(int i=(min+3); i<arr.length; i+=3){
+            if(arr[i] < arr[min] && (arr[i+1]-(int) arr[i+1]) == 0)
                 min= i;
         }
         return min;
     }
     @Override
+    // TODO: 08/12/2021 fix the function.
     public List<NodeData> shortestPath(int src, int dest) {
         List<NodeData> path= new LinkedList<>();
-        path.add(this.graph.getNode(src));
-        double[] arr= new double[(this.graph.nodeSize()-1)*3];
+        path.add(this.graph.getNode(dest));
+        double[] arr= new double[(this.graph.nodeSize())*3];
         int i= 0;
-//        int srcindex= -1;
         int start= -1;
         for(Integer s: this.graph.getMapOfNode().keySet()) {
             if(s == src) {
                 start= i;
+                arr[i]= src;
+                arr[i+1]= 0;
+                arr[i+2]= src+0.1;
+                this.graph.getMapOfNode().get(s).setTag(1);
                 i=i+3;
                 continue;
             }
@@ -166,30 +190,84 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
             i = i + 3;
         }
 //        int start= src;
-        while (arr[start] != dest){
-            int min= minInArr(arr)-1;
-            arr[min+2]+= 0.1;
-            start= min;
+        int min= minInArr(arr);
+        arr[min+1]+= 0.1;
+        this.graph.getMapOfNode().get((int)arr[min-1]).setTag(1);
+        start= min;
+        while (arr[start-1] != dest){
             i=0;
             for(Integer s: this.graph.getMapOfNode().keySet()){
-                if(s==start){
+                if(s==arr[start-1] || this.graph.getMapOfNode().get(s).getTag() == 1){
                     i= i+3;
                     continue;
                 }
-                if(this.graph.getMapOfSrc().get(start).containsKey(s)){
+//                if(!this.graph.getMapOfSrc().get(start).isEmpty()){
+                if(this.graph.getMapOfSrc().get((int)arr[start-1]).containsKey(s)){
                     int tag= (int) arr[i+2];
                     if(arr[i+2] - tag != 0) continue;
-                    if(arr[i+1] > this.graph.getMapOfSrc().get(start).get(s).getWeight()){
-                        arr[i+1]= this.graph.getMapOfSrc().get(start).get(s).getWeight();
-                        arr[i+2]= arr[start]+ 0.0;
-                        if(s == dest)
-                            path.add(this.graph.getNode((int) arr[start]));
+                    if(arr[i+1] > this.graph.getMapOfSrc().get((int)arr[start-1]).get(s).getWeight()){
+                        arr[i+1]= arr[start]+ this.graph.getMapOfSrc().get((int)arr[start-1]).get(s).getWeight();
+                        arr[i+2]= arr[start-1]+ 0.0;
+                        //                        if(s == dest)
+//                            path.add(this.graph.getNode((int) arr[start]));
+//                    }
                     }
                 }
+//                }
                 i= i+3;
             }
+            min= minInArr(arr);
+            arr[min+1]+= 0.1;
+            this.graph.getMapOfNode().get((int)arr[min-1]).setTag(1);
+            start= min;
         }
-        path.add(0, this.graph.getNode(dest));
+//        while(arr[start-1] != src){
+//            path.add(this.graph.getNode((int)arr[start+1]));
+//            start=
+//        }
+//        double[] arr= new double[(this.graph.nodeSize()-1)*3];
+//        int i= 0;
+////        int srcindex= -1;
+//        int start= -1;
+//        for(Integer s: this.graph.getMapOfNode().keySet()) {
+//            if(s == src) {
+//                start= i;
+//                i=i+3;
+//                continue;
+//            }
+//            arr[i] = s;
+//            if(this.graph.getMapOfSrc().get(src).containsKey(s))
+//                arr[i + 1] = this.graph.getMapOfSrc().get(src).get(s).getWeight();
+//            else
+//                arr[i+1] = Integer.MAX_VALUE;
+//            arr[i + 2] = src + 0.0;
+//            i = i + 3;
+//        }
+////        int start= src;
+//        while (arr[start] != dest){
+//            int min= minInArr(arr)-1;
+//            arr[min+2]+= 0.1;
+//            start= min;
+//            i=0;
+//            for(Integer s: this.graph.getMapOfNode().keySet()){
+//                if(s==start){
+//                    i= i+3;
+//                    continue;
+//                }
+//                if(this.graph.getMapOfSrc().get(start).containsKey(s)){
+//                    int tag= (int) arr[i+2];
+//                    if(arr[i+2] - tag != 0) continue;
+//                    if(arr[i+1] > this.graph.getMapOfSrc().get(start).get(s).getWeight()){
+//                        arr[i+1]= this.graph.getMapOfSrc().get(start).get(s).getWeight();
+//                        arr[i+2]= arr[start]+ 0.0;
+//                        if(s == dest)
+//                            path.add(this.graph.getNode((int) arr[start]));
+//                    }
+//                }
+//                i= i+3;
+//            }
+//        }
+//        path.add(0, this.graph.getNode(dest));
         return path;
     }
 
@@ -203,6 +281,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         NodeData NodeTmp;
         for (int i: this.graph.getMapOfNode().keySet()){
             double maxShortPath = 0;
+            int temp= -1;
             for (int j: this.graph.getMapOfNode().keySet()){
                 shortPath = shortestPathDist(i,j);
 //                if (shortPath > maxShortPath) {
@@ -211,64 +290,74 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
             }
             if (maxShortPath < min){
                 min = maxShortPath;
-                ind = i;
+                ind = temp;
             }
         }
         NodeTmp = this.graph.getNode(ind);
         return NodeTmp;
     }
 
-    private double minInArray (ArrayList<Double> arr){
-        double min = arr.get(0);
-        for (int i = 0; i < arr.size()-1; i++) {
-            if (arr.get(i) > arr.get(i+1)){
-                min = arr.get(i+1);
-            }
-        }
-        return min;
-    }
-
-    private double maxInArray (ArrayList<Double> arr){
-        double max = arr.get(0);
-        for (int i = 0; i < arr.size()-1; i++) {
-            if (arr.get(i) < arr.get(i+1)){
-                max = arr.get(i+1);
-            }
-        }
-        return max;
-    }
+//    private double minInArray (ArrayList<Double> arr){
+//        double min = arr.get(0);
+//        for (int i = 0; i < arr.size()-1; i++) {
+//            if (arr.get(i) > arr.get(i+1)){
+//                min = arr.get(i+1);
+//            }
+//        }
+//        return min;
+//    }
+//
+//    private double maxInArray (ArrayList<Double> arr){
+//        double max = arr.get(0);
+//        for (int i = 0; i < arr.size()-1; i++) {
+//            if (arr.get(i) < arr.get(i+1)){
+//                max = arr.get(i+1);
+//            }
+//        }
+//        return max;
+//    }
 
     // TODO: 07/12/2021 maybe to do arraylist for all the options to beagining vertex.
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
         List<NodeData> path= new LinkedList<>();
-        int minimumstart= 0;
+        Point minimumstart= new Point(0,0);
         double mindis= Integer.MAX_VALUE;
-        for(int i=0; i<cities.size(); i++){
-            for(int j=1; j<cities.size(); j++){
-                double dis= this.shortestPathDist(i, j);
-                if(mindis > dis){
-                    mindis = dis;
-                    minimumstart= i;
-                }
+        for(Point p: this.graph.getMapOfEdge().keySet()){
+            if(mindis> this.graph.getMapOfEdge().get(p).getWeight()){
+                mindis=this.graph.getMapOfEdge().get(p).getWeight();
+                minimumstart= p;
             }
+
         }
+
+//        for(int i=0; i<cities.size(); i++){
+//            for(int j=1; j<cities.size(); j++){
+//                double dis= this.shortestPathDist(i, j);
+//                if(mindis > dis){
+//                    mindis = dis;
+//                    minimumstart= i;
+//                }
+//            }
+//        }
         double min= Integer.MAX_VALUE;
         int tempkey= -1;
-        Node_Data tempnode= (Node_Data) cities.remove(minimumstart);
+        Node_Data tempnode= (Node_Data) cities.remove(minimumstart.x-1);
         path.add(tempnode);
         while (!cities.isEmpty()) {
-            for (Integer s : this.graph.getMapOfSrc().get(tempnode.getKey()).keySet()) {
-                if (cities.contains(this.graph.getNode(s))) {
-                    double dis= this.shortestPathDist(tempnode.getKey(), s);
+            for(int s=0; s<cities.size(); s++){
+//            for (Integer s : this.graph.getMapOfSrc().get(tempnode.getKey()).keySet()) {
+//                if (cities.contains(this.graph.getNode(s))) {
+                    double dis= this.shortestPathDist(tempnode.getKey(), cities.get(s).getKey());
                     if (min > dis) {
                         min = dis;
-                        tempkey= s;
+                        tempkey= cities.get(s).getKey();
                     }
                 }
-            }
+//            }
             tempnode= (Node_Data) cities.remove(cities.indexOf(this.graph.getNode(tempkey)));
             path.add(tempnode);
+            min= Integer.MAX_VALUE;
         }
         return path;
     }
