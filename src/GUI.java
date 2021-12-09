@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -154,12 +155,14 @@ public class GUI extends JFrame implements ActionListener  {
                     public void actionPerformed(ActionEvent e) {
                         String file = t.getText();
                         graph = Ex2.getGrapg(file);
-                        myGraphAlgo = new Directed_WeightedGraphAlgorithms((Directed_WeightedGraph) graph)
+                        myGraphAlgo = new Directed_WeightedGraphAlgorithms((Directed_WeightedGraph) graph);
                         repaint();
-                        MyPannel pannel = new MyPannel((Directed_WeightedGraph) graph);
-                        input.add(pannel);
                         input.dispose();
-                        setVisible(true);
+//                        MyPannel pannel = new MyPannel((Directed_WeightedGraph) myGraphAlgo.getGraph());
+//                        input.add(pannel);
+//                        pannel.setVisible(true);
+
+
                     }
                 };
                 enter.addActionListener(button);
@@ -447,6 +450,107 @@ public class GUI extends JFrame implements ActionListener  {
                         JLabel label = new JLabel();
                         label.setBounds(50, 10, 500, 10);
                         String st ="";
+                        System.out.println(ans.size());
+//                        st= st+ myGraphAlgo.getGraph().getNode(Integer.parseInt(arr[0])).getKey()+ " ";
+                        for (int i = 0; i < (ans.size()-1); i++) {
+//                            System.out.println(i);
+                            System.out.println(ans.get(i).getKey());
+                            st =st+ ans.get(i).getKey()+ " ";
+//                            while (ans.listIterator().hasNext()){
+//                                NodeData temp= ans.listIterator().next();
+//                                System.out.println(temp.getKey());
+//                                st= temp.getKey()+ " ";
+//                            }
+
+
+                        }
+                        st= st+ myGraphAlgo.getGraph().getNode(Integer.parseInt(arr[1])).getKey()+ " ";
+                        label.setText(st);
+                        dis.add(label);
+                        dis.setVisible(true);
+                    }
+                };
+                enter.addActionListener(button);
+                shortp.add(enter);
+                shortp.setVisible(true);
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        if (e.getSource() == save) {
+            try {
+                JFrame saveg = new JFrame();
+                JPanel jPanel = new JPanel();
+                jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
+                jPanel.setLayout(new GridLayout(0, 1));
+                saveg.add(jPanel, BorderLayout.CENTER);
+                saveg.setLayout(null);
+                saveg.setSize(screensize.width / 2, screensize.height / 2);
+                JTextField t = new JTextField();
+                t.setBounds(50, 50, 200, 20);
+                saveg.add(t);
+                JLabel label = new JLabel("Enter a name of json file: ");
+                label.setBounds(50, 30, 700, 20);
+                saveg.add(label);
+                JButton enter = new JButton("enter");
+                enter.setBounds(50, 80, 50, 20);
+                enter.setFocusable(false);
+                enter.setBorder(BorderFactory.createEtchedBorder());
+                ActionListener button = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String s = t.getText();
+                        myGraphAlgo.save(s);
+                        saveg.dispose();
+                    }
+                };
+                enter.addActionListener(button);
+                saveg.add(enter);
+                saveg.setVisible(true);
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        if (e.getSource() == tsp) {
+            try {
+                JFrame tspg = new JFrame();
+                JPanel jPanel = new JPanel();
+                jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
+                jPanel.setLayout(new GridLayout(0, 1));
+                tspg.add(jPanel, BorderLayout.CENTER);
+                tspg.setLayout(null);
+                tspg.setSize(screensize.width / 2, screensize.height / 2);
+                JTextField t = new JTextField();
+                t.setBounds(50, 50, 200, 20);
+                tspg.add(t);
+                JLabel label = new JLabel("Enter a list of vertex: ");
+                label.setBounds(50, 30, 700, 20);
+                tspg.add(label);
+                JButton enter = new JButton("enter");
+                enter.setBounds(50, 80, 50, 20);
+                enter.setFocusable(false);
+                enter.setBorder(BorderFactory.createEtchedBorder());
+                ActionListener button = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String s = t.getText();
+                        String[] arr= s.split(" ");
+                        List<NodeData> to_tsp= new LinkedList<>();
+                        for(int i= 0; i<arr.length; i++) {
+                            to_tsp.add(myGraphAlgo.getGraph().getNode(Integer.parseInt(arr[i])));
+                        }
+                        List<NodeData> ans = myGraphAlgo.tsp(to_tsp);
+                        tspg.dispose();
+                        JFrame dis = new JFrame();
+                        JPanel jPanel = new JPanel();
+                        jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
+                        jPanel.setLayout(new GridLayout(0, 1));
+                        dis.add(jPanel, BorderLayout.CENTER);
+                        dis.setLayout(null);
+                        dis.setSize(screensize.width / 2, screensize.height / 10);
+                        JLabel label = new JLabel();
+                        label.setBounds(50, 10, 500, 10);
+                        String st ="";
                         for (int i = 0; i < ans.size(); i++) {
                             System.out.println(ans.get(i).getKey());
                             st= st+ ans.get(i).getKey()+ " ";
@@ -458,8 +562,8 @@ public class GUI extends JFrame implements ActionListener  {
                     }
                 };
                 enter.addActionListener(button);
-                shortp.add(enter);
-                shortp.setVisible(true);
+                tspg.add(enter);
+                tspg.setVisible(true);
             } catch (Exception ex) {
                 System.out.println(ex);
             }

@@ -82,7 +82,7 @@ class Directed_WeightedGraphAlgorithmsTest {
     @Test
     void shortestPath() {
         DirectedWeightedGraphAlgorithms gr2= new Directed_WeightedGraphAlgorithms("C:\\Users\\חן שטינמץ\\Documents\\מדעי המחשב ומתמטיקה=)\\שנה ב\\סמסטר א' תשפב\\מונחה עצמים\\מטלות\\Ex2\\G1.json");
-        gr2.shortestPathDist(2,17);
+        List<NodeData> l1= gr2.shortestPath(2,17);
     }
 
     @Test
@@ -103,6 +103,13 @@ class Directed_WeightedGraphAlgorithmsTest {
 
     @Test
     void tsp() {
+//        DirectedWeightedGraphAlgorithms gr2= new Directed_WeightedGraphAlgorithms("C:\\Users\\חן שטינמץ\\Documents\\מדעי המחשב ומתמטיקה=)\\שנה ב\\סמסטר א' תשפב\\מונחה עצמים\\מטלות\\Ex2\\G1.json");
+//        List<NodeData> ans= new LinkedList<>();
+//        ans.add(gr2.getGraph().getNode(2));
+//        ans.add(gr2.getGraph().getNode(5));
+//        ans.add(gr2.getGraph().getNode(12));
+//        ans.add(gr2.getGraph().getNode(15));
+//        gr2.tsp(ans);
         alg1.getGraph().addNode(n3);
         alg1.getGraph().addNode(n4);
         alg1.getGraph().addNode(n5);

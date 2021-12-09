@@ -152,6 +152,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
                 i= i+3;
             }
             min= minInArr(arr);
+            if(min == -1) break;
             arr[min+1]+= 0.1;
             this.graph.getMapOfNode().get((int)arr[min-1]).setTag(1);
             start= min;
@@ -164,6 +165,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         while ((min-1)<arr.length && ((arr[min+1]- (int) arr[min+1]) != 0)) {
             min = min + 3;
         }
+        if (min>= arr.length) return -1;
         for(int i=(min+3); i<arr.length && min<arr.length; ){
             if(arr[i] < arr[min] && (arr[i+1]-(int) arr[i+1]) == 0)
                 min= i;
@@ -175,7 +177,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     // TODO: 08/12/2021 fix the function.
     public List<NodeData> shortestPath(int src, int dest) {
         List<NodeData> path= new LinkedList<>();
-        path.add(this.graph.getNode(dest));
+        path.add(0, this.graph.getNode(dest));
         double[] arr= new double[(this.graph.nodeSize())*3];
         int i= 0;
         int start= -1;
@@ -227,16 +229,19 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
                 i= i+3;
             }
             min= minInArr(arr);
+            if(min == -1) break;
             arr[min+1]+= 0.1;
             this.graph.getMapOfNode().get((int)arr[min-1]).setTag(1);
             start= min;
         }
         NodeData temp= this.graph.getNode((int) arr[start+1]);
         while (temp.getKey() != src ){
-            start= Integer.parseInt(temp.getInfo())-1;
-            path.add(this.graph.getNode((int) arr[start+1]));
+            start= (Integer.parseInt(temp.getInfo())+1);
+            path.add(0, this.graph.getNode((int) arr[start+1]));
+            temp= this.graph.getNode((int) arr[start+1]);
         }
-        path.add(this.graph.getNode(src));
+//        path.add(0, this.graph.getNode(src));
+
 //        while(arr[start-1] != src){
 //            path.add(this.graph.getNode((int)arr[start+1]));
 //            start=
@@ -347,13 +352,13 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         List<NodeData> path= new LinkedList<>();
         Point minimumstart= new Point(0,0);
         double mindis= Integer.MAX_VALUE;
-        for(Point p: this.graph.getMapOfEdge().keySet()){
-            if(mindis> this.graph.getMapOfEdge().get(p).getWeight()){
-                mindis=this.graph.getMapOfEdge().get(p).getWeight();
-                minimumstart= p;
-            }
+//        for(Point p: this.graph.getMapOfEdge().keySet()){
+//            if(mindis> this.graph.getMapOfEdge().get(p).getWeight()){
+//                mindis=this.graph.getMapOfEdge().get(p).getWeight();
+//                minimumstart= p;
+//            }
 
-        }
+//        }
 
 //        for(int i=0; i<cities.size(); i++){
 //            for(int j=1; j<cities.size(); j++){
@@ -366,7 +371,9 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
 //        }
         double min= Integer.MAX_VALUE;
         int tempkey= -1;
-        Node_Data tempnode= (Node_Data) cities.remove(minimumstart.x-1);
+//        int index= cities.indexOf(this.graph.getNode(minimumstart.x));
+//        Node_Data tempnode= (Node_Data) cities.remove(index);
+        Node_Data tempnode=(Node_Data) cities.remove(0);
         path.add(tempnode);
         while (!cities.isEmpty()) {
             for(int s=0; s<cities.size(); s++){
