@@ -38,6 +38,9 @@ public class GUI extends JFrame implements ActionListener  {
     {
 //        myGraphAlgo=a;
 //        JFrame jFrame = new JFrame();
+
+//        MyPannel pannel = new MyPannel((Directed_WeightedGraph) this.graph);
+//        this.add(pannel);
         JPanel jPanel = new JPanel();
         jPanel.setBorder(BorderFactory.createEmptyBorder(50,50,10,50));
         jPanel.setLayout(new GridLayout(0,1));
@@ -87,6 +90,7 @@ public class GUI extends JFrame implements ActionListener  {
         menu.add(algorithms);
         menu.add(update);
         this.setJMenuBar(menu);
+
 //        t= new JTextField();
 //        t.setBounds(50,50,100,20);
 //        JButton load= new JButton("load");
@@ -127,6 +131,8 @@ public class GUI extends JFrame implements ActionListener  {
             try {
                 JFrame input = new JFrame();
                 JPanel jPanel = new JPanel();
+                //MyPannel pannel = new MyPannel((Directed_WeightedGraph) this.graph);
+
                 jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
                 jPanel.setLayout(new GridLayout(0, 1));
                 input.add(jPanel, BorderLayout.CENTER);
@@ -148,14 +154,20 @@ public class GUI extends JFrame implements ActionListener  {
                     public void actionPerformed(ActionEvent e) {
                         String file = t.getText();
                         graph = Ex2.getGrapg(file);
-                        myGraphAlgo = new Directed_WeightedGraphAlgorithms((Directed_WeightedGraph) graph);
+                        myGraphAlgo = new Directed_WeightedGraphAlgorithms((Directed_WeightedGraph) graph)
+                        repaint();
+                        MyPannel pannel = new MyPannel((Directed_WeightedGraph) graph);
+                        input.add(pannel);
                         input.dispose();
+                        setVisible(true);
                     }
                 };
                 enter.addActionListener(button);
                 input.add(enter);
+                //input.add(pannel);//////////////////////////////////
+                repaint();
                 input.setVisible(true);
-//                if(enter.isSelected()) input.dispose();
+ ///                if(enter.isSelected()) input.dispose();
 
 //            Scanner s= new Scanner(System.in);
 //            System.out.println("Enter file path:");
@@ -454,12 +466,15 @@ public class GUI extends JFrame implements ActionListener  {
         }
     }
 
+
     public Directed_WeightedGraph getGraph(){
         return (Directed_WeightedGraph) this.myGraphAlgo.getGraph();
     }
 
     public static void main(String[] args) {
         new GUI();
+
+
 //        new ButtonExample();
 //        Ex2.runGUI();
     }

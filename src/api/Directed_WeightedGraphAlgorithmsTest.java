@@ -23,6 +23,8 @@ class Directed_WeightedGraphAlgorithmsTest {
     Edge_Data e6= new Edge_Data(n4, n1, 1.7, "", 0);
     Directed_WeightedGraph gr1= new Directed_WeightedGraph(e1);
     Directed_WeightedGraphAlgorithms alg1= new Directed_WeightedGraphAlgorithms(gr1);
+    Directed_WeightedGraphAlgorithms alg22= new Directed_WeightedGraphAlgorithms("G1.json");
+    Directed_WeightedGraph lg22= (Directed_WeightedGraph) alg22.getGraph();
 
     @Test
     void init() {
@@ -94,7 +96,9 @@ class Directed_WeightedGraphAlgorithmsTest {
         alg1.getGraph().connect(5,3, 8.1);
         alg1.getGraph().connect(4,1,1.7);
         int ans = alg1.center().getKey();
+        int ans1 = alg22.center().getKey();
         assertEquals(ans,4);
+        assertEquals(8,ans1);
     }
 
     @Test
