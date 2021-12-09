@@ -130,10 +130,22 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
         this.mapOfDst.remove(key);
         this.mapOfSrc.remove(key);
         this.mapOfDst.remove(key);
-        for(Point p: this.mapOfEdge.keySet()){
-            if(p.x == key || p.y == key)
-                this.mapOfEdge.remove(p);
+        Edge_Data e= null;
+        for (int i = this.mapOfEdge.size()-1; i >= 0 ; i--) {
+            if(this.mapOfEdge.get(i) == null) continue;
+            if(this.mapOfEdge.get(i).getSrc() == key || this.mapOfEdge.get(i).getDest() == key)
+                this.mapOfEdge.remove(new Point(this.mapOfEdge.get(i).getSrc(),this.mapOfEdge.get(i).getDest()));
         }
+
+//        Iterator iter= this.edgeIter();
+//        while (iter.hasNext()){
+////        for(Point p: this.mapOfEdge.keySet()){
+//            e= (Edge_Data) iter.next();
+//            if(e.getSrc() == key || e.getDest() == key)
+//                this.mapOfEdge.remove(new Point(e.getSrc(), e.getDest()));
+//            if(p.x == key || p.y == key)
+//                this.mapOfEdge.remove(p);
+//        }
         this.mc++;
          return this.mapOfNode.remove(key);
     }

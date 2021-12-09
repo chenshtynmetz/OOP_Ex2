@@ -80,4 +80,9 @@ public class Node_Data implements NodeData{
     public void setLocation(GeoLocation p) {
         this.location= (Geo_Location) p;
     }
+
+    public String toString(Node_Data n){
+        String ans= ""+n.key;
+        return ans;
+    }
 }

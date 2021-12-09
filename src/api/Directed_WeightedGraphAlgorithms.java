@@ -451,15 +451,16 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
                 graph1.addNode(n1);
             }
 
+            this.graph = (Directed_WeightedGraph) graph1;
             for (JsonElement e : edges) {
                 int src = ((JsonObject) e).get("src").getAsInt();
                 double weight = ((JsonObject) e).get("w").getAsDouble();
                 int dest = ((JsonObject) e).get("dest").getAsInt();
 
-//                EdgeData e1 = new Edge_Data(src, dest, weight);
-//                graph1.connect(e1.getSrc(), e1.getDest(), e1.getWeight());
+                EdgeData e1 = new Edge_Data((Node_Data) this.graph.getNode(src), (Node_Data) this.graph.getNode(dest), weight);
+                graph1.connect(src, dest, weight);
             }
-            this.graph = (Directed_WeightedGraph) graph1;
+
             return true;
 
         } catch (FileNotFoundException e) {
