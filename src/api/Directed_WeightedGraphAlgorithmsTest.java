@@ -79,6 +79,8 @@ class Directed_WeightedGraphAlgorithmsTest {
 
     @Test
     void shortestPath() {
+        DirectedWeightedGraphAlgorithms gr2= new Directed_WeightedGraphAlgorithms("C:\\Users\\חן שטינמץ\\Documents\\מדעי המחשב ומתמטיקה=)\\שנה ב\\סמסטר א' תשפב\\מונחה עצמים\\מטלות\\Ex2\\G1.json");
+        gr2.shortestPathDist(2,17);
     }
 
     @Test

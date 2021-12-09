@@ -149,6 +149,7 @@ public class GUI extends JFrame implements ActionListener  {
                         String file = t.getText();
                         graph = Ex2.getGrapg(file);
                         myGraphAlgo = new Directed_WeightedGraphAlgorithms((Directed_WeightedGraph) graph);
+                        input.dispose();
                     }
                 };
                 enter.addActionListener(button);
@@ -193,6 +194,7 @@ public class GUI extends JFrame implements ActionListener  {
                         String[] arr = s.split(" ");
                         graph.addNode(new Node_Data((Integer.parseInt(arr[0])), new Geo_Location((Integer.parseInt(arr[1])), (Integer.parseInt(arr[2])), (Integer.parseInt(arr[0])))));
                         System.out.println(graph.nodeSize());
+                        add.dispose();
                     }
                 };
                 enter.addActionListener(button);
@@ -235,6 +237,7 @@ public class GUI extends JFrame implements ActionListener  {
                         String[] arr = s.split(" ");
                         graph.connect(Integer.parseInt(arr[0]), (Integer.parseInt(arr[1])), (Double.parseDouble(arr[2])));
                         System.out.println(graph.edgeSize());
+                        connect.dispose();
                     }
                 };
                 enter.addActionListener(button);
@@ -279,6 +282,7 @@ public class GUI extends JFrame implements ActionListener  {
                         String[] arr = s.split(" ");
                         graph.removeNode(Integer.parseInt(arr[0]));
                         System.out.println(graph.nodeSize());
+                        nremove.dispose();
                     }
                 };
                 enter.addActionListener(button);
@@ -314,6 +318,7 @@ public class GUI extends JFrame implements ActionListener  {
                         String[] arr = s.split(" ");
                         graph.removeEdge(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
                         System.out.println(graph.edgeSize());
+                        eremove.dispose();
                     }
                 };
                 enter.addActionListener(button);
@@ -370,6 +375,7 @@ public class GUI extends JFrame implements ActionListener  {
                         String[] arr = s.split(" ");
                         double ans = myGraphAlgo.shortestPathDist(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
                         System.out.println(ans);
+                        shortp.dispose();
                         JFrame dis = new JFrame();
                         JPanel jPanel = new JPanel();
                         jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
@@ -418,6 +424,7 @@ public class GUI extends JFrame implements ActionListener  {
 //                        List<NodeData> ans= myGraphAlgo.shortestPath(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
 //                        double ans=myGraphAlgo.shortestPathDist(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
                         List<NodeData> ans = myGraphAlgo.shortestPath(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
+                        shortp.dispose();
                         JFrame dis = new JFrame();
                         JPanel jPanel = new JPanel();
                         jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
