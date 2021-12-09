@@ -76,6 +76,8 @@ class Directed_WeightedGraphAlgorithmsTest {
         alg1.getGraph().connect(5,3, 8.1);
         alg1.getGraph().connect(4,1,1.7);
         alg1.getGraph().connect(4,2, 0.3);
+        double b1 = alg22.shortestPathDist(2,14);
+        //System.out.println(b1);
         assertEquals(2.63, alg1.shortestPathDist(1,2));
     }
 
@@ -95,9 +97,9 @@ class Directed_WeightedGraphAlgorithmsTest {
         alg1.getGraph().connect(1,4, 2.33);
         alg1.getGraph().connect(5,3, 8.1);
         alg1.getGraph().connect(4,1,1.7);
-        int ans = alg1.center().getKey();
+        //int ans = alg1.center().getKey();
         int ans1 = alg22.center().getKey();
-        assertEquals(ans,4);
+        //assertEquals(ans,4);
         assertEquals(8,ans1);
     }
 
