@@ -3,9 +3,11 @@ import api.*;
 import javax.swing.*;
 import javax.tools.Tool;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Iterator;
 
-public class MyPannel extends JPanel {
+public class MyPannel extends JPanel implements MouseListener {
     Directed_WeightedGraph graph;
 //    Iterator<NodeData> node_iter;
 //    Iterator<EdgeData> edge_iter;
@@ -13,8 +15,12 @@ public class MyPannel extends JPanel {
     double yScale;
 
     public MyPannel(Directed_WeightedGraph g){
+//        this.setPreferredSize(new Dimension(500,500));
+//        this.setBackground(Color.pink);
         this.graph=g;
-
+//        this.addMouseListener(this);
+//        DirectedWeightedGraphAlgorithms gr2= new Directed_WeightedGraphAlgorithms("C:\\Users\\חן שטינמץ\\Documents\\מדעי המחשב ומתמטיקה=)\\שנה ב\\סמסטר א' תשפב\\מונחה עצמים\\מטלות\\Ex2\\G1.json");
+//        this.graph= (Directed_WeightedGraph) gr2.getGraph();
 //        node_iter = g.nodeIter();
 //        edge_iter = g.edgeIter();
         scale();
@@ -80,10 +86,38 @@ public class MyPannel extends JPanel {
         while (node_iter.hasNext()){
             Node_Data temp = (Node_Data) node_iter.next();
             Geo_Location loc = (Geo_Location) temp.getLocation();
+            g.drawOval((int)(loc.x()*xScale), (int)(loc.y()*yScale), 5,5);
             g.fillOval((int)(loc.x()*xScale), (int)(loc.y()*yScale), 5,5);
             repaint();
 
         }
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (graph != null){
+            repaint();
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 }

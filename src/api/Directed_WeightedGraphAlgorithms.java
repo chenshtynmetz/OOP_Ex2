@@ -157,6 +157,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
             this.graph.getMapOfNode().get((int)arr[min-1]).setTag(1);
             start= min;
         }
+        cleanTag(this.graph);
         return arr[start];
     }
 
@@ -297,8 +298,8 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
         double min = Double.MAX_VALUE;
         ArrayList<Double> shortsPath = new ArrayList<Double>();
         ArrayList<Double> justTheShorts = new ArrayList<Double>();
-        double shortPath = 0;
-        int ind = 0;
+        double shortPath = Double.MAX_VALUE;
+        int ind = -1;
         NodeData NodeTmp;
         for (int i: this.graph.getMapOfNode().keySet()){
             double maxShortPath = 0;
@@ -306,7 +307,8 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
             for (int j: this.graph.getMapOfNode().keySet()){
                 if (i != j) {
                     cleanTag(this.graph);
-                    shortPath = shortestPathDist(j, i);
+                    shortPath = shortestPathDist(i, j);
+//                    System.out.println(shortPath);
 //                if (shortPath > maxShortPath) {
                     if (shortPath > maxShortPath){
                         maxShortPath = shortPath;
@@ -317,14 +319,16 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
 //                }
                 }
             }
+//            System.out.println(maxShortPath +" "+ temp);
             if (maxShortPath < min){
                 min = maxShortPath;
-                ind = temp;
+                ind = i;
             }
         }
         NodeTmp = this.graph.getNode(ind);
         return NodeTmp;
     }
+
 
 //    private double minInArray (ArrayList<Double> arr){
 //        double min = arr.get(0);
