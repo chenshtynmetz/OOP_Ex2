@@ -17,9 +17,13 @@ import java.util.Iterator;
 
 
 public class GUI extends JFrame implements ActionListener {
-    private Image mBuffer_image;
-    private Graphics mBuffer_graphics;
+//    private Image mBuffer_image;
+//    private Graphics mBuffer_graphics;
+    NodeData n1= new Node_Data(0, new Geo_Location(20,45,0));
+    NodeData n2= new Node_Data(1, new Geo_Location(50, 70, 0));
     DirectedWeightedGraphAlgorithms myGraphAlgo;
+//    DirectedWeightedGraphAlgorithms myGraphAlgo= new Directed_WeightedGraphAlgorithms(new Directed_WeightedGraph(new Edge_Data((Node_Data) n1, (Node_Data) n2, 1.867483)));
+    MyPannel pannel;
     JMenuBar menu;
     JMenu new_graph;
     JMenu update;
@@ -40,21 +44,29 @@ public class GUI extends JFrame implements ActionListener {
     double xScale;
     double yScale;
 
-    public GUI() {
+    public GUI(DirectedWeightedGraphAlgorithms g) {
 //        myGraphAlgo=a;
 //        JFrame jFrame = new JFrame();
-//        this.myGraphAlgo= g;
-//        MyPannel pannel = new MyPannel((Directed_WeightedGraph) this.graph);
+        this.myGraphAlgo= g;
+        pannel= new MyPannel((Directed_WeightedGraph) g.getGraph());
+        pannel.setBounds(0,0,screensize.width,screensize.height);
+        pannel.setBorder(BorderFactory.createEmptyBorder(50,50,10,50));
+//        pannel.setLayout(null);
+        this.add(pannel, BorderLayout.NORTH);
+        this.add(pannel);
+//        MyPannel pannel = new MyPannel((Directed_WeightedGraph) myGraphAlgo.getGraph());
 //        pannel.setBorder(BorderFactory.createEmptyBorder(50,50,10,50));
 //        pannel.setLayout(new GridLayout(0,1));
 //        this.add(pannel);
+//        this.add(pannel, BorderLayout.CENTER);
+        this.repaint();
 //        JPanel jPanel = new JPanel();
 //        jPanel.setBackground(Color.black);
 //        this.add(jPanel);
 //        jPanel.setBorder(BorderFactory.createEmptyBorder(50,50,10,50));
 //        jPanel.setLayout(new GridLayout(0,1));
 //        this.add(jPanel, BorderLayout.CENTER);
-//        this.add(pannel, BorderLayout.CENTER);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
         this.setSize(screensize);
@@ -125,7 +137,7 @@ public class GUI extends JFrame implements ActionListener {
 ////        menu.setBorderPainted(true);
 //        container.add(menu, BorderLayout.NORTH);
 //        menu.setBorder(BorderFactory.createEmptyBorder(10,10,5,10));
-        repaint();
+//        repaint();
         this.setVisible(true);
 
 //            ActionListener listen_update= new ActionListener() {
@@ -218,12 +230,20 @@ public class GUI extends JFrame implements ActionListener {
                     enter.setBounds(50, 80, 50, 20);
                     enter.setFocusable(false);
                     enter.setBorder(BorderFactory.createEtchedBorder());
+
+//                    if(enter.isSelected()){
+//                        String file = t.getText();
+//                        graph = Ex2.getGrapg(file);
+//                        myGraphAlgo = new Directed_WeightedGraphAlgorithms((Directed_WeightedGraph) graph);
+//                        input.dispose();
+//                    }
                     ActionListener button = new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             String file = t.getText();
                             graph = Ex2.getGrapg(file);
-                            myGraphAlgo = new Directed_WeightedGraphAlgorithms((Directed_WeightedGraph) graph);
+                            myGraphAlgo.init(graph);
+//                            myGraphAlgo = new Directed_WeightedGraphAlgorithms((Directed_WeightedGraph) graph);
 //                            Iterator iter= myGraphAlgo.getGraph().nodeIter();
 //                            JPanel j= new JPanel();
 //                            j.setBackground(Color.magenta);
@@ -247,20 +267,11 @@ public class GUI extends JFrame implements ActionListener {
 
                         }
                     };
-
                     enter.addActionListener(button);
                     input.add(enter);
                     //input.add(pannel);//////////////////////////////////
-                    repaint();
+                    this.repaint();
                     input.setVisible(true);
-                    ///                if(enter.isSelected()) input.dispose();
-
-//            Scanner s= new Scanner(System.in);
-//            System.out.println("Enter file path:");
-//            String file= s.nextLine();
-
-
-//            this.remove(t);
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
@@ -298,12 +309,6 @@ public class GUI extends JFrame implements ActionListener {
                     enter.addActionListener(button);
                     add.add(enter);
                     add.setVisible(true);
-//            Scanner s= new Scanner(System.in);
-//            System.out.println("Enter file path:");
-//            String file= s.nextLine();
-
-
-//            this.remove(t);
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
@@ -341,15 +346,6 @@ public class GUI extends JFrame implements ActionListener {
                     enter.addActionListener(button);
                     connect.add(enter);
                     connect.setVisible(true);
-
-//                if(enter.isSelected())
-//                    connect.setVisible(false);
-//            Scanner s= new Scanner(System.in);
-//            System.out.println("Enter file path:");
-//            String file= s.nextLine();
-
-
-//            this.remove(t);
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
@@ -539,11 +535,6 @@ public class GUI extends JFrame implements ActionListener {
 //                            System.out.println(i);
                                 System.out.println(ans.get(i).getKey());
                                 st = st + ans.get(i).getKey() + " ";
-//                            while (ans.listIterator().hasNext()){
-//                                NodeData temp= ans.listIterator().next();
-//                                System.out.println(temp.getKey());
-//                                st= temp.getKey()+ " ";
-//                            }
 
 
                             }
@@ -674,7 +665,8 @@ public class GUI extends JFrame implements ActionListener {
         }
 
         public static void main (String[]args){
-            new GUI();
+//            new GUI();
+            Ex2.runGUI("G2.json");
 
 
 //        new ButtonExample();

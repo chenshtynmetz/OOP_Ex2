@@ -46,6 +46,7 @@ public class Ex2 {
         // ****** Add your code here ******
         //
         // ********************************
-//        new GUI((Directed_WeightedGraphAlgorithms) alg);
+        new GUI((Directed_WeightedGraphAlgorithms) alg);
+
     }
 }

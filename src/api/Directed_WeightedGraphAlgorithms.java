@@ -30,7 +30,6 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
     @Override
     public void init(api.DirectedWeightedGraph g) {
         this.graph= (Directed_WeightedGraph) g;
-//        creatMatrix(this.graph);
     }
 
     @Override

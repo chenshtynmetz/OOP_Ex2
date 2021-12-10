@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Iterator;
 
-public class MyPannel extends JPanel implements MouseListener {
+public class MyPannel extends JPanel  {
     Directed_WeightedGraph graph;
 //    Iterator<NodeData> node_iter;
 //    Iterator<EdgeData> edge_iter;
@@ -15,8 +15,9 @@ public class MyPannel extends JPanel implements MouseListener {
     double yScale;
 
     public MyPannel(Directed_WeightedGraph g){
+        super();
 //        this.setPreferredSize(new Dimension(500,500));
-//        this.setBackground(Color.pink);
+        this.setBackground(Color.pink);
         this.graph=g;
 //        this.addMouseListener(this);
 //        DirectedWeightedGraphAlgorithms gr2= new Directed_WeightedGraphAlgorithms("C:\\Users\\חן שטינמץ\\Documents\\מדעי המחשב ומתמטיקה=)\\שנה ב\\סמסטר א' תשפב\\מונחה עצמים\\מטלות\\Ex2\\G1.json");
@@ -24,6 +25,7 @@ public class MyPannel extends JPanel implements MouseListener {
 //        node_iter = g.nodeIter();
 //        edge_iter = g.edgeIter();
         scale();
+        this.repaint();
     }
 
 //    public void printG (){
@@ -82,42 +84,50 @@ public class MyPannel extends JPanel implements MouseListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.black);
-        Iterator node_iter=graph.nodeIter();
-        while (node_iter.hasNext()){
-            Node_Data temp = (Node_Data) node_iter.next();
-            Geo_Location loc = (Geo_Location) temp.getLocation();
-            g.drawOval((int)(loc.x()*xScale), (int)(loc.y()*yScale), 5,5);
-            g.fillOval((int)(loc.x()*xScale), (int)(loc.y()*yScale), 5,5);
-            repaint();
-
+        for(int i: this.graph.getMapOfNode().keySet()){
+            g.setColor(Color.BLUE);
+            Geo_Location loc= (Geo_Location) this.graph.getNode(i).getLocation();
+            double x= loc.x()*xScale;
+            double y= loc.y()*yScale;
+            g.fillOval((int)(x-5), (int)(y-5), 20,20);
+            this.repaint();
         }
+//        Iterator node_iter=graph.nodeIter();
+//        while (node_iter.hasNext()){
+//            Node_Data temp = (Node_Data) node_iter.next();
+//            Geo_Location loc = (Geo_Location) temp.getLocation();
+//            g.drawOval((int)(loc.x()*xScale), (int)(loc.y()*yScale), 5,5);
+//            g.fillOval((int)(loc.x()*xScale), (int)(loc.y()*yScale), 5,5);
+//            this.repaint();
+//
+//        }
 
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (graph != null){
-            repaint();
-        }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+//    @Override
+//    public void mouseClicked(MouseEvent e) {
+//
+//    }
+//
+//    @Override
+//    public void mousePressed(MouseEvent e) {
+//        if (graph != null){
+//            repaint();
+//        }
+//    }
+//
+//    @Override
+//    public void mouseReleased(MouseEvent e) {
+//
+//    }
+//
+//    @Override
+//    public void mouseEntered(MouseEvent e) {
+//
+//    }
+//
+//    @Override
+//    public void mouseExited(MouseEvent e) {
+//
+//    }
 }
