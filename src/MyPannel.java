@@ -1,10 +1,8 @@
 import api.*;
 
 import javax.swing.*;
-import javax.tools.Tool;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.geom.*;
 import java.util.Iterator;
 
 public class MyPannel extends JPanel  {
@@ -13,11 +11,17 @@ public class MyPannel extends JPanel  {
 //    Iterator<EdgeData> edge_iter;
     double xScale;
     double yScale;
+    double Xmax;
+    double Xmin;
+    double Ymax;
+    double Ymin;
+    double factors1 = 1;
+    double factors2= 8;
 
     public MyPannel(Directed_WeightedGraph g){
         super();
 //        this.setPreferredSize(new Dimension(500,500));
-        this.setBackground(Color.pink);
+        this.setBackground(Color.white);
         this.graph=g;
 //        this.addMouseListener(this);
 //        DirectedWeightedGraphAlgorithms gr2= new Directed_WeightedGraphAlgorithms("C:\\Users\\חן שטינמץ\\Documents\\מדעי המחשב ומתמטיקה=)\\שנה ב\\סמסטר א' תשפב\\מונחה עצמים\\מטלות\\Ex2\\G1.json");
@@ -39,10 +43,10 @@ public class MyPannel extends JPanel  {
 //    }
 
     public void scale (){
-        double Xmax = Double.MIN_VALUE;
-        double Xmin = Double.MAX_VALUE;
-        double Ymax = Double.MIN_VALUE;
-        double Ymin = Double.MAX_VALUE;
+        Xmax = Double.MIN_VALUE;
+        Xmin = Double.MAX_VALUE;
+        Ymax = Double.MIN_VALUE;
+        Ymin = Double.MAX_VALUE;
         Iterator node_iter=graph.nodeIter();
         while (node_iter.hasNext()){
             Node_Data temp = (Node_Data) node_iter.next();
@@ -64,6 +68,8 @@ public class MyPannel extends JPanel  {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         xScale = screenSize.width/xAbs;
         yScale = screenSize.height/yAbs;
+        xScale= xScale*0.7;
+        yScale= yScale*0.7;
     }
 
 //    @Override
@@ -83,14 +89,54 @@ public class MyPannel extends JPanel  {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g1 = (Graphics2D) g;
+        g1.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(Color.black);
-        for(int i: this.graph.getMapOfNode().keySet()){
-            g.setColor(Color.BLUE);
-            Geo_Location loc= (Geo_Location) this.graph.getNode(i).getLocation();
-            double x= loc.x()*xScale;
-            double y= loc.y()*yScale;
-            g.fillOval((int)(x-5), (int)(y-5), 20,20);
+        for (int i : this.graph.getMapOfNode().keySet()) {
+            g.setColor(Color.orange);
+            Geo_Location loc = (Geo_Location) this.graph.getNode(i).getLocation();
+            double x = (loc.x() - Xmin) * xScale * 0.97 + 30;
+            double y = (loc.y() - Ymin) * yScale * 0.97 + 30;
+            g.fillOval((int) (x - 2), (int) (y - 2), 20, 20);
             this.repaint();
+        }
+        for (int i : this.graph.getMapOfSrc().keySet()) {
+            for (int j : this.graph.getMapOfSrc().get(i).keySet()) {
+                g.setColor(Color.black);
+                double Xsrc = (this.graph.getNode(i).getLocation().x() - Xmin) * xScale + 30;
+                double Ysrc = (this.graph.getNode(i).getLocation().y() - Ymin) * yScale + 30;
+                double Xdst = (this.graph.getNode(j).getLocation().x() - Xmin) * xScale + 30;
+                double Ydst = (this.graph.getNode(j).getLocation().y() - Ymin) * yScale + 30;
+                int x1 = (int) Xsrc;
+                int x2 = (int) Xdst;
+                int y1 = (int) Ysrc;
+                int y2 = (int) Ydst;
+                g1.setStroke(new BasicStroke(1));
+                g1.draw(new Line2D.Double(x1, y1, x2, y2));
+                double t= Math.atan2(y2 - y1, x2 - x1);
+                g.setColor(Color.green);
+                arrow(g1, t, x2,y2);
+                this.repaint();
+//                x1 = (int) Xsrc + (int) (xScale / factors1);
+//                y1 = (int) Ysrc + (int) (yScale / factors1);
+//                x2 = (int) Xdst + (int) (xScale / factors1);
+//                y2 = (int) Ydst + (int) (yScale / factors1);
+            }
+        }
+    }
+        private void arrow (Graphics2D g1, double t, double x1, double y1) {
+            double b = 20;
+            double pi = Math.PI / 6;
+            double x = x1 - b * Math.cos(t + pi);
+            double y = y1 - b * Math.sin(t + pi);
+            g1.setStroke(new BasicStroke(3));
+            g1.draw(new Line2D.Double(x1, y1, x, y));
+            x = x1 - b * Math.cos(t - pi);
+            y = y1 - b * Math.sin(t - pi);
+            g1.draw(new Line2D.Double(x1, y1, x, y));
+
+
         }
 //        Iterator node_iter=graph.nodeIter();
 //        while (node_iter.hasNext()){
@@ -104,30 +150,5 @@ public class MyPannel extends JPanel  {
 
     }
 
-//    @Override
-//    public void mouseClicked(MouseEvent e) {
-//
-//    }
-//
-//    @Override
-//    public void mousePressed(MouseEvent e) {
-//        if (graph != null){
-//            repaint();
-//        }
-//    }
-//
-//    @Override
-//    public void mouseReleased(MouseEvent e) {
-//
-//    }
-//
-//    @Override
-//    public void mouseEntered(MouseEvent e) {
-//
-//    }
-//
-//    @Override
-//    public void mouseExited(MouseEvent e) {
-//
-//    }
-}
+
+

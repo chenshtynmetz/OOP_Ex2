@@ -19,8 +19,8 @@ import java.util.Iterator;
 public class GUI extends JFrame implements ActionListener {
 //    private Image mBuffer_image;
 //    private Graphics mBuffer_graphics;
-    NodeData n1= new Node_Data(0, new Geo_Location(20,45,0));
-    NodeData n2= new Node_Data(1, new Geo_Location(50, 70, 0));
+//    NodeData n1= new Node_Data(0, new Geo_Location(20,45,0));
+//    NodeData n2= new Node_Data(1, new Geo_Location(50, 70, 0));
     DirectedWeightedGraphAlgorithms myGraphAlgo;
 //    DirectedWeightedGraphAlgorithms myGraphAlgo= new Directed_WeightedGraphAlgorithms(new Directed_WeightedGraph(new Edge_Data((Node_Data) n1, (Node_Data) n2, 1.867483)));
     MyPannel pannel;
@@ -47,7 +47,7 @@ public class GUI extends JFrame implements ActionListener {
     public GUI(DirectedWeightedGraphAlgorithms g) {
 //        myGraphAlgo=a;
 //        JFrame jFrame = new JFrame();
-        this.myGraphAlgo= g;
+        this.myGraphAlgo=g;
         pannel= new MyPannel((Directed_WeightedGraph) g.getGraph());
         pannel.setBounds(0,0,screensize.width,screensize.height);
         pannel.setBorder(BorderFactory.createEmptyBorder(50,50,10,50));
@@ -301,7 +301,7 @@ public class GUI extends JFrame implements ActionListener {
                         public void actionPerformed(ActionEvent e) {
                             String s = t.getText();
                             String[] arr = s.split(" ");
-                            graph.addNode(new Node_Data((Integer.parseInt(arr[0])), new Geo_Location((Integer.parseInt(arr[1])), (Integer.parseInt(arr[2])), (Integer.parseInt(arr[0])))));
+                            myGraphAlgo.getGraph().addNode(new Node_Data((Integer.parseInt(arr[0])), new Geo_Location((Integer.parseInt(arr[1])), (Integer.parseInt(arr[2])), (Integer.parseInt(arr[0])))));
                             System.out.println(graph.nodeSize());
                             add.dispose();
                         }
@@ -338,7 +338,7 @@ public class GUI extends JFrame implements ActionListener {
                         public void actionPerformed(ActionEvent e) {
                             String s = t.getText();
                             String[] arr = s.split(" ");
-                            graph.connect(Integer.parseInt(arr[0]), (Integer.parseInt(arr[1])), (Double.parseDouble(arr[2])));
+                            myGraphAlgo.getGraph().connect(Integer.parseInt(arr[0]), (Integer.parseInt(arr[1])), (Double.parseDouble(arr[2])));
                             System.out.println(graph.edgeSize());
                             connect.dispose();
                         }
@@ -374,7 +374,7 @@ public class GUI extends JFrame implements ActionListener {
                         public void actionPerformed(ActionEvent e) {
                             String s = t.getText();
                             String[] arr = s.split(" ");
-                            graph.removeNode(Integer.parseInt(arr[0]));
+                            myGraphAlgo.getGraph().removeNode(Integer.parseInt(arr[0]));
                             System.out.println(graph.nodeSize());
                             nremove.dispose();
                         }
@@ -382,6 +382,7 @@ public class GUI extends JFrame implements ActionListener {
                     enter.addActionListener(button);
                     nremove.add(enter);
                     nremove.setVisible(true);
+//                    this.pannel.repaint();
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
@@ -410,7 +411,7 @@ public class GUI extends JFrame implements ActionListener {
                         public void actionPerformed(ActionEvent e) {
                             String s = t.getText();
                             String[] arr = s.split(" ");
-                            graph.removeEdge(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
+                            myGraphAlgo.getGraph().removeEdge(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
                             System.out.println(graph.edgeSize());
                             eremove.dispose();
                         }
