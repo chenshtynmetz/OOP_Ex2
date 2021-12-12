@@ -41,8 +41,9 @@ public class GUI extends JFrame implements ActionListener {
     JMenuItem shortestPathList;
     Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
     DirectedWeightedGraph graph;
-    double xScale;
-    double yScale;
+    boolean loading= false;
+//    double xScale;
+//    double yScale;
 
     public GUI(DirectedWeightedGraphAlgorithms g) {
 //        myGraphAlgo=a;
@@ -54,6 +55,7 @@ public class GUI extends JFrame implements ActionListener {
 //        pannel.setLayout(null);
         this.add(pannel, BorderLayout.NORTH);
         this.add(pannel);
+        pannel.setVisible(true);
 //        MyPannel pannel = new MyPannel((Directed_WeightedGraph) myGraphAlgo.getGraph());
 //        pannel.setBorder(BorderFactory.createEmptyBorder(50,50,10,50));
 //        pannel.setLayout(new GridLayout(0,1));
@@ -210,6 +212,7 @@ public class GUI extends JFrame implements ActionListener {
         public void actionPerformed (ActionEvent e){
             if (e.getSource() == load) {
                 try {
+
                     JFrame input = new JFrame();
 //                    JPanel jPanel = new JPanel();
                     //MyPannel pannel = new MyPannel((Directed_WeightedGraph) this.graph);
@@ -230,7 +233,7 @@ public class GUI extends JFrame implements ActionListener {
                     enter.setBounds(50, 80, 50, 20);
                     enter.setFocusable(false);
                     enter.setBorder(BorderFactory.createEtchedBorder());
-
+//                    pannel.setVisible(false);
 //                    if(enter.isSelected()){
 //                        String file = t.getText();
 //                        graph = Ex2.getGrapg(file);
@@ -243,6 +246,8 @@ public class GUI extends JFrame implements ActionListener {
                             String file = t.getText();
                             graph = Ex2.getGrapg(file);
                             myGraphAlgo.init(graph);
+                            loading= true;
+                            repaint();
 //                            myGraphAlgo = new Directed_WeightedGraphAlgorithms((Directed_WeightedGraph) graph);
 //                            Iterator iter= myGraphAlgo.getGraph().nodeIter();
 //                            JPanel j= new JPanel();
@@ -257,8 +262,10 @@ public class GUI extends JFrame implements ActionListener {
 //                            for (int i = 0; i < myGraphAlgo.getGraph().nodeSize(); i++) {
 //
 //                            }
-                            repaint();
                             input.dispose();
+                            pannel.init((Directed_WeightedGraph) myGraphAlgo.getGraph());
+                            pannel.repaint();
+//                            pannel.setVisible(true);
 //                        MyPannel pannel = new MyPannel((Directed_WeightedGraph) myGraphAlgo.getGraph());
 //                        input.add(pannel,BorderLayout.CENTER);
 
@@ -278,6 +285,16 @@ public class GUI extends JFrame implements ActionListener {
             }
             if (e.getSource() == add_node) {
                 try {
+                    if(loading == false){
+                        JFrame message= new JFrame();
+                        message.setLayout(null);
+                        message.setSize(screensize.width / 2, screensize.height / 2);
+                        JLabel label = new JLabel("please load graph before update");
+                        label.setBounds(50, 30, 400, 20);
+                        message.add(label);
+                        message.setVisible(true);
+                        return;
+                    }
                     JFrame add = new JFrame();
 //                JPanel jPanel = new JPanel();
 //                jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
@@ -306,6 +323,8 @@ public class GUI extends JFrame implements ActionListener {
                             add.dispose();
                         }
                     };
+                    pannel.init((Directed_WeightedGraph) myGraphAlgo.getGraph());
+                    pannel.repaint();
                     enter.addActionListener(button);
                     add.add(enter);
                     add.setVisible(true);
@@ -315,6 +334,16 @@ public class GUI extends JFrame implements ActionListener {
             }
             if (e.getSource() == connect_edge) {
                 try {
+                    if(loading == false){
+                        JFrame message= new JFrame();
+                        message.setLayout(null);
+                        message.setSize(screensize.width / 2, screensize.height / 2);
+                        JLabel label = new JLabel("please load graph before update");
+                        label.setBounds(50, 30, 400, 20);
+                        message.add(label);
+                        message.setVisible(true);
+                        return;
+                    }
                     JFrame connect = new JFrame();
                     JPanel jPanel = new JPanel();
                     jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
@@ -343,6 +372,8 @@ public class GUI extends JFrame implements ActionListener {
                             connect.dispose();
                         }
                     };
+                    pannel.init((Directed_WeightedGraph) myGraphAlgo.getGraph());
+                    pannel.repaint();
                     enter.addActionListener(button);
                     connect.add(enter);
                     connect.setVisible(true);
@@ -352,6 +383,16 @@ public class GUI extends JFrame implements ActionListener {
             }
             if (e.getSource() == remove_node) {
                 try {
+                    if(loading == false){
+                        JFrame message= new JFrame();
+                        message.setLayout(null);
+                        message.setSize(screensize.width / 2, screensize.height / 2);
+                        JLabel label = new JLabel("please load graph before update");
+                        label.setBounds(50, 30, 400, 20);
+                        message.add(label);
+                        message.setVisible(true);
+                        return;
+                    }
                     JFrame nremove = new JFrame();
                     JPanel jPanel = new JPanel();
                     jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
@@ -379,6 +420,9 @@ public class GUI extends JFrame implements ActionListener {
                             nremove.dispose();
                         }
                     };
+//                    myGraphAlgo.init(myGraphAlgo.getGraph());
+                    pannel.init((Directed_WeightedGraph) myGraphAlgo.getGraph());
+                    pannel.repaint();
                     enter.addActionListener(button);
                     nremove.add(enter);
                     nremove.setVisible(true);
@@ -389,6 +433,16 @@ public class GUI extends JFrame implements ActionListener {
             }
             if (e.getSource() == remove_edge) {
                 try {
+                    if(loading == false){
+                        JFrame message= new JFrame();
+                        message.setLayout(null);
+                        message.setSize(screensize.width / 2, screensize.height / 2);
+                        JLabel label = new JLabel("please load graph before update");
+                        label.setBounds(50, 30, 400, 20);
+                        message.add(label);
+                        message.setVisible(true);
+                        return;
+                    }
                     JFrame eremove = new JFrame();
                     JPanel jPanel = new JPanel();
                     jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 10, 50));
@@ -416,6 +470,8 @@ public class GUI extends JFrame implements ActionListener {
                             eremove.dispose();
                         }
                     };
+                    pannel.init((Directed_WeightedGraph) myGraphAlgo.getGraph());
+                    pannel.repaint();
                     enter.addActionListener(button);
                     eremove.add(enter);
                     eremove.setVisible(true);
@@ -564,7 +620,7 @@ public class GUI extends JFrame implements ActionListener {
                     JTextField t = new JTextField();
                     t.setBounds(50, 50, 200, 20);
                     saveg.add(t);
-                    JLabel label = new JLabel("Enter a name of json file: ");
+                    JLabel label = new JLabel("Enter a name for json file: ");
                     label.setBounds(50, 30, 700, 20);
                     saveg.add(label);
                     JButton enter = new JButton("enter");

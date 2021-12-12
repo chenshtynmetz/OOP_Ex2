@@ -127,15 +127,26 @@ public class Directed_WeightedGraph implements DirectedWeightedGraph {
                  this.mapOfEdge.remove(this.mapOfDst.get(key).get(d));
              }
          }
+
         this.mapOfDst.remove(key);
         this.mapOfSrc.remove(key);
         this.mapOfDst.remove(key);
-        Edge_Data e= null;
-        for (int i = this.mapOfEdge.size()-1; i >= 0 ; i--) {
-            if(this.mapOfEdge.get(i) == null) continue;
-            if(this.mapOfEdge.get(i).getSrc() == key || this.mapOfEdge.get(i).getDest() == key)
-                this.mapOfEdge.remove(new Point(this.mapOfEdge.get(i).getSrc(),this.mapOfEdge.get(i).getDest()));
+//        Edge_Data e= null;
+        Point[] points= this.mapOfEdge.keySet().toArray(new Point[0]);
+        for(int i=0 ; i<points.length; i++){
+//            if(this.mapOfEdge.get(points[i])== null) continue;
+            if(this.mapOfEdge.get(points[i]).getSrc() == key || this.mapOfEdge.get(points[i]).getDest() == key)
+                this.getMapOfEdge().remove(points[i]);
         }
+//        for (int i = this.mapOfEdge.size()-1; i >= 0 ; i--) {
+//
+//            if(this.mapOfEdge.get(i) == null) continue;
+//            if(this.mapOfEdge.get(i).getSrc() == key || this.mapOfEdge.get(i).getDest() == key)
+//                this.mapOfEdge.remove(new Point(this.mapOfEdge.get(i).getSrc(),this.mapOfEdge.get(i).getDest()));
+//        }
+//        for(EdgeData e: this.mapOfEdge.values().){
+//
+//        }
 
 //        Iterator iter= this.edgeIter();
 //        while (iter.hasNext()){

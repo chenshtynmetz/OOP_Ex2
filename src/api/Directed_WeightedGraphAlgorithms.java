@@ -398,7 +398,7 @@ public class Directed_WeightedGraphAlgorithms implements DirectedWeightedGraphAl
 
     @Override
     public boolean save(String file) {
-        Gson json = new GsonBuilder().create();
+        Gson json = new GsonBuilder().setPrettyPrinting().create();
         JsonArray nodes = new JsonArray();
         JsonArray edges = new JsonArray();
         JsonObject graph = new JsonObject();

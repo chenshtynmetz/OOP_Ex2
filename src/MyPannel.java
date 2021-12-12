@@ -32,6 +32,12 @@ public class MyPannel extends JPanel  {
         this.repaint();
     }
 
+    public void init(Directed_WeightedGraph g){
+        this.graph= g;
+        scale();
+        this.repaint();
+    }
+
 //    public void printG (){
 //        Node_Data n = (Node_Data) node_iter.next();
 //        while (node_iter.hasNext()){
@@ -93,30 +99,25 @@ public class MyPannel extends JPanel  {
         g1.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(Color.black);
-        for (int i : this.graph.getMapOfNode().keySet()) {
-            g.setColor(Color.orange);
-            Geo_Location loc = (Geo_Location) this.graph.getNode(i).getLocation();
-            double x = (loc.x() - Xmin) * xScale * 0.97 + 30;
-            double y = (loc.y() - Ymin) * yScale * 0.97 + 30;
-            g.fillOval((int) (x - 2), (int) (y - 2), 20, 20);
-            this.repaint();
-        }
+
         for (int i : this.graph.getMapOfSrc().keySet()) {
             for (int j : this.graph.getMapOfSrc().get(i).keySet()) {
                 g.setColor(Color.black);
-                double Xsrc = (this.graph.getNode(i).getLocation().x() - Xmin) * xScale + 30;
-                double Ysrc = (this.graph.getNode(i).getLocation().y() - Ymin) * yScale + 30;
-                double Xdst = (this.graph.getNode(j).getLocation().x() - Xmin) * xScale + 30;
-                double Ydst = (this.graph.getNode(j).getLocation().y() - Ymin) * yScale + 30;
+                double Xsrc = (this.graph.getNode(i).getLocation().x() - Xmin) * xScale*0.98 + 30;
+                double Ysrc = (this.graph.getNode(i).getLocation().y() - Ymin) * yScale*0.98  + 30;
+                double Xdst = (this.graph.getNode(j).getLocation().x() - Xmin) * xScale*0.98  + 30;
+                double Ydst = (this.graph.getNode(j).getLocation().y() - Ymin) * yScale*0.98  + 30;
                 int x1 = (int) Xsrc;
                 int x2 = (int) Xdst;
                 int y1 = (int) Ysrc;
                 int y2 = (int) Ydst;
                 g1.setStroke(new BasicStroke(1));
+//                g1.drawLine(x1, y1, x2, y2);
                 g1.draw(new Line2D.Double(x1, y1, x2, y2));
                 double t= Math.atan2(y2 - y1, x2 - x1);
                 g.setColor(Color.green);
                 arrow(g1, t, x2,y2);
+
                 this.repaint();
 //                x1 = (int) Xsrc + (int) (xScale / factors1);
 //                y1 = (int) Ysrc + (int) (yScale / factors1);
@@ -124,18 +125,30 @@ public class MyPannel extends JPanel  {
 //                y2 = (int) Ydst + (int) (yScale / factors1);
             }
         }
+        for (int i : this.graph.getMapOfNode().keySet()) {
+            g.setColor(Color.orange);
+            Geo_Location loc = (Geo_Location) this.graph.getNode(i).getLocation();
+            double x = (loc.x() - Xmin) * xScale * 0.97 + 30;
+            double y = (loc.y() - Ymin) * yScale * 0.97 + 30;
+            g.fillOval((int) (x-2), (int) (y-2), 20, 20);
+            this.repaint();
+        }
     }
         private void arrow (Graphics2D g1, double t, double x1, double y1) {
-            double b = 20;
+            double b = 12;
             double pi = Math.PI / 6;
-            double x = x1 - b * Math.cos(t + pi);
-            double y = y1 - b * Math.sin(t + pi);
-            g1.setStroke(new BasicStroke(3));
-            g1.draw(new Line2D.Double(x1, y1, x, y));
-            x = x1 - b * Math.cos(t - pi);
-            y = y1 - b * Math.sin(t - pi);
-            g1.draw(new Line2D.Double(x1, y1, x, y));
-
+            double x2 = x1 - b * Math.cos(t + pi);
+            double y2 = y1 - b * Math.sin(t + pi);
+//            g1.setStroke(new BasicStroke(3));
+//            g1.draw(new Line2D.Double(x1, y1, x2, y2));
+            double x3 = x1 - b * Math.cos(t - pi);
+            double y3 = y1 - b * Math.sin(t - pi);
+//            g1.draw(new Line2D.Double(x1, y1, x3, y3));
+//            g1.draw(new Line2D.Double(x2, y2, x3, y3));
+            int[] xpoints= {(int) x1, (int) x2, (int) x3};
+            int[] ypoints= {(int) y1, (int) y2, (int) y3};
+//            Point[] points= {new Point((int)x1, (int)y1), new Point((int)x2, (int)y2), new Point((int)x3, (int)y3)};
+            g1.fillPolygon(xpoints, ypoints, 3 );
 
         }
 //        Iterator node_iter=graph.nodeIter();
