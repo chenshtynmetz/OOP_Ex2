@@ -1,6 +1,6 @@
 # OOP_Ex2
-## In this task we asked to peresent graph and do algorinms on him.
-## For do this we implement a few classes:
+### In this task we asked to peresent graph and do algorinms on him.
+### For do this we implement a few classes:
 ### Node_Data: 
 the node data present a vertex that include: id (int), location(Geolocation), information(String) and tag (int). This class implements get and set methods.
 ### Edge_Data:
