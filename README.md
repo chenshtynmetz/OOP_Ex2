@@ -44,3 +44,9 @@ Load: load graph
 100000: 2.21 min
 ##### center:
 1000: 17.146 sec
+
+### How to run:
+to run the program plese enter the next line to the comand line: java -jar Ex2.jar and in the end the name of the json file, for example: G1.json 
+
+### Our GUI:
+to start our GUI you need first to load the json file. just after you can activate the functions on the graph.
