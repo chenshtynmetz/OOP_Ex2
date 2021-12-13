@@ -16,3 +16,31 @@ Shortestpath: return all the vertex that need to pass for the short path in list
 Tsp: conculate tsp problem.
 Save: save the graph to json file.
 Load: load graph
+
+#### running times on big graphs:
+##### load:
+1000: 141 ms
+10000: 634 ms
+100000: 8.777 sec
+###### save:
+1000: 218 ms
+10000: 607 ms
+100000: 5.6979 sec
+##### is connected:
+1000: 120 ms
+10000: 168 ms
+100000: 7.825 sec
+##### short path dis:
+1000: 157 ms
+10000: 431 ms
+100000: 17.272 sec
+##### short path:
+1000: 234 ms
+10000: 508 ms
+100000: 20.127 sec
+##### tsp: 
+1000: 572 ms
+10000: 3.214 sec
+100000: 2.21 min
+##### center:
+1000: 17.146 sec
