@@ -9,43 +9,36 @@ import api.Directed_WeightedGraphAlgorithms;
 public class Ex2 {
     /**
      * This static function will be used to test your implementation
+     *
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      * @return
      */
     public static DirectedWeightedGraph getGrapg(String json_file) {
         DirectedWeightedGraph ans = null;
-        Directed_WeightedGraphAlgorithms alg= new Directed_WeightedGraphAlgorithms(json_file);
-        ans= alg.getGraph();
-        System.out.println(ans.nodeSize());
-        System.out.println(ans.edgeSize());
-        // ****** Add your code here ******
-        //
-        // ********************************
+        Directed_WeightedGraphAlgorithms alg = new Directed_WeightedGraphAlgorithms(json_file);
+        ans = alg.getGraph();
         return ans;
     }
+
     /**
      * This static function will be used to test your implementation
+     *
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      * @return
      */
     public static DirectedWeightedGraphAlgorithms getGrapgAlgo(String json_file) {
         DirectedWeightedGraphAlgorithms ans = new Directed_WeightedGraphAlgorithms(new Directed_WeightedGraph());
         ans.load(json_file);
-        // ****** Add your code here ******
-        //
-        // ********************************
         return ans;
     }
+
     /**
      * This static function will run your GUI using the json fime.
-     * @param json_file - a json file (e.g., G1.json - G3.gson)
      *
+     * @param json_file - a json file (e.g., G1.json - G3.gson)
      */
     public static void runGUI(String json_file) {
         DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
-        // ****** Add your code here ******
-        //
-        // ********************************
         new GUI((Directed_WeightedGraphAlgorithms) alg);
 
     }

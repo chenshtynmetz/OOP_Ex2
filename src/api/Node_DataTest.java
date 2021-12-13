@@ -3,11 +3,10 @@ package api;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Node_DataTest {
-
-    Geo_Location g1= new Geo_Location(2, 3, 5);
-    Geo_Location g2= new Geo_Location(5, 7, 1);
-    Node_Data n1= new Node_Data(1, g1, "", 0 );
-    Node_Data n2= new Node_Data(2, g2, "", 0);
+    Geo_Location g1 = new Geo_Location(2, 3, 5);
+    Geo_Location g2 = new Geo_Location(5, 7, 1);
+    Node_Data n1 = new Node_Data(1, g1, "", 0);
+    Node_Data n2 = new Node_Data(2, g2, "", 0);
 
     @org.junit.jupiter.api.Test
     void getKey() {
@@ -24,7 +23,7 @@ class Node_DataTest {
 
     @org.junit.jupiter.api.Test
     void getWeight() {
-        assertEquals(0,n1.getWeight());
+        assertEquals(0, n1.getWeight());
         assertEquals(0, n2.getWeight());
     }
 

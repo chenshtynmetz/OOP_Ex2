@@ -1,4 +1,5 @@
 package api;
+
 public class Geo_Location implements GeoLocation {
     // properties
     private double x;
@@ -6,13 +7,14 @@ public class Geo_Location implements GeoLocation {
     private double z;
 
     // constractor
-    public Geo_Location (double x, double y, double z){
+    public Geo_Location(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
+
     // defult constractor
-    public Geo_Location(){
+    public Geo_Location() {
         this.x = 0;
         this.y = 0;
         this.z = 0;
@@ -40,9 +42,9 @@ public class Geo_Location implements GeoLocation {
         double minusX = this.x - g.x();
         double minusY = this.y - g.y();
         double minusZ = this.z - g.z();
-        double powX = Math.pow(minusX,2);
-        double powY = Math.pow(minusY,2);
-        double powZ = Math.pow(minusZ,2);
+        double powX = Math.pow(minusX, 2);
+        double powY = Math.pow(minusY, 2);
+        double powZ = Math.pow(minusZ, 2);
         double distance = Math.sqrt(powX + powY + powZ);
         return distance;
     }

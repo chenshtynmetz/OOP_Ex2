@@ -1,10 +1,10 @@
 package api;
 
-public class Node_Data implements NodeData{
+public class Node_Data implements NodeData {
     // properties
     private int key;
     private Geo_Location location;
-    private double weight= 0;
+    private double weight = 0;
     private String info;
     private int tag;
     // final variable for tag
@@ -13,28 +13,29 @@ public class Node_Data implements NodeData{
     private static final int BLACK = 2;
 
     // defult constructor
-    public Node_Data(){
+    public Node_Data() {
         this.key = 0;
-        this.location= new Geo_Location();
-        this.info= "";
-        this.tag= WHITE;
+        this.location = new Geo_Location();
+        this.info = "";
+        this.tag = WHITE;
     }
 
     // constructors
-    public Node_Data(int key, Geo_Location g, String info, int tag){
-        this.key= key;
-        this.location= g;
-        this.info= info;
-        this.tag= tag;
-    }
-    public Node_Data(int key, Geo_Location g){
-        this.key= key;
-        this.location= g;
-        this.info= "";
-        this.tag= WHITE;
+    public Node_Data(int key, Geo_Location g, String info, int tag) {
+        this.key = key;
+        this.location = g;
+        this.info = info;
+        this.tag = tag;
     }
 
-        // Getters
+    public Node_Data(int key, Geo_Location g) {
+        this.key = key;
+        this.location = g;
+        this.info = "";
+        this.tag = WHITE;
+    }
+
+    // Getters
     @Override
     public int getKey() {
         return this.key;
@@ -52,7 +53,7 @@ public class Node_Data implements NodeData{
 
     @Override
     public void setWeight(double w) {
-        this.weight= w;
+        this.weight = w;
     }
 
     @Override
@@ -62,7 +63,7 @@ public class Node_Data implements NodeData{
 
     @Override
     public void setInfo(String s) {
-        this.info= s;
+        this.info = s;
     }
 
     @Override
@@ -73,16 +74,16 @@ public class Node_Data implements NodeData{
     // Setters
     @Override
     public void setTag(int t) {
-        this.tag= t;
+        this.tag = t;
     }
 
     @Override
     public void setLocation(GeoLocation p) {
-        this.location= (Geo_Location) p;
+        this.location = (Geo_Location) p;
     }
 
-    public String toString(Node_Data n){
-        String ans= ""+n.key;
+    public String toString(Node_Data n) {
+        String ans = "" + n.key;
         return ans;
     }
 }

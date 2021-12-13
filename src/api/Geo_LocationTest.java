@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Geo_LocationTest {
-    Geo_Location g1= new Geo_Location(2, 3, 5);
-    Geo_Location g2= new Geo_Location(5, 7, 1);
+    Geo_Location g1 = new Geo_Location(2, 3, 5);
+    Geo_Location g2 = new Geo_Location(5, 7, 1);
+
     @Test
     void x() {
         assertEquals(2, g1.x());
