@@ -49,4 +49,4 @@ Load: load graph
 to run the program plese enter the next line to the comand line: java -jar Ex2.jar and in the end the name of the json file, for example: G1.json 
 
 ### Our GUI:
-to start our GUI you need first to load the json file. just after you can activate the functions on the graph.
+to start our GUI you need to run the program in the way that we describe before, now it's possible to activate algoritemes on the graph, but if you want to change the graph, you need first to load the json file. 
